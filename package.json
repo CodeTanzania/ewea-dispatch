@@ -39,7 +39,8 @@
     "dispatch",
     "vehicle",
     "ambulance",
-    "fire"
+    "fire",
+    "cad"
   ],
   "repository": {
     "type": "git",

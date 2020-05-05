@@ -1,6 +1,6 @@
 import { compact } from '@lykmapipo/common';
 import { Point } from 'mongoose-geojson-schemas';
-import { ObjectId } from '@lykmapipo/mongoose-common';
+import { ObjectId, createSubSchema } from '@lykmapipo/mongoose-common';
 import { Predefine } from '@lykmapipo/predefine';
 
 import { PREDEFINE_OPTION_AUTOPOPULATE } from '../internals';
@@ -236,3 +236,39 @@ export const gender = {
   },
   default: undefined,
 };
+
+/**
+ * @name requester
+ * @description A party who is requesting a vehicle dispatch on
+ * behalf of another party.
+ *
+ * @type {object}
+ * @property {string} name - Full name of the requester
+ * @property {string} mobile - Mobile phone number of the requester
+ * @property {object} facility - Facility of the requester
+ * @property {object} area - Administrative area of the requester
+ * @property {object} location - Geo-point of the requester
+ * @property {object} address - Address of the requester
+ *
+ * @author lally elias <lallyelias87@gmail.com>
+ * @since 0.1.0
+ * @version 0.1.0
+ * @instance
+ * @example
+ * {
+ *   name: "Jane Doe",
+ *   mobile: "+255715463739",
+ *   facility: { name: { en: "Amana Hospital"} },
+ *   area: { name: { en: "Dar es Salaam"} },
+ *   location: { type: "Point", coordinates: [39.2155451, -6.7269984] },
+ *   address: "Tandale"
+ * }
+ */
+export const requester = createSubSchema({
+  name,
+  mobile,
+  facility,
+  area,
+  location,
+  address,
+});

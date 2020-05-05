@@ -24,6 +24,7 @@ import {
   status,
   remarks,
 } from './schema/base.schema';
+import { requester } from './schema/common.schema';
 import {
   reporter,
   dispatcher,
@@ -38,9 +39,9 @@ import {
 } from './schema/dates.schema';
 
 const SCHEMA = mergeObjects(
-  { group, type, event },
-  { number, description },
-  { status },
+  { group, type, event, number },
+  { requester },
+  { description, status },
   { reportedAt, reporter },
   { dispatchedAt, dispatcher },
   { canceledAt, canceler },

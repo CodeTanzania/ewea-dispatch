@@ -86,6 +86,72 @@ describe('VehicleDispatch Schema', () => {
     expect(number.options.fake).to.exist;
   });
 
+  it('should have requester field', () => {
+    const requester = VehicleDispatch.path('requester');
+    const name = VehicleDispatch.path('requester.name');
+    const mobile = VehicleDispatch.path('requester.mobile');
+
+    expect(requester).to.exist;
+    expect(requester).to.be.an.instanceof(SchemaTypes.Embedded);
+
+    expect(name).to.exist;
+    expect(name).to.be.instanceof(SchemaTypes.String);
+    expect(name.options).to.exist;
+    expect(name.options).to.be.an('object');
+    expect(name.options.type).to.exist;
+    expect(name.options.trim).to.be.true;
+    expect(name.options.index).to.be.true;
+    expect(name.options.searchable).to.be.true;
+    expect(name.options.taggable).to.be.true;
+    expect(name.options.exportable).to.be.true;
+    expect(name.options.fake).to.exist;
+
+    expect(mobile).to.exist;
+    expect(mobile).to.be.instanceof(SchemaTypes.String);
+    expect(mobile.options).to.exist;
+    expect(mobile.options).to.be.an('object');
+    expect(mobile.options.type).to.exist;
+    expect(mobile.options.trim).to.be.true;
+    expect(mobile.options.index).to.be.true;
+    expect(mobile.options.searchable).to.be.true;
+    expect(mobile.options.taggable).to.be.true;
+    expect(mobile.options.exportable).to.be.true;
+    expect(mobile.options.fake).to.exist;
+  });
+
+  it('should have victim field', () => {
+    const victim = VehicleDispatch.path('victim');
+    const name = VehicleDispatch.path('victim.name');
+    const mobile = VehicleDispatch.path('victim.mobile');
+
+    expect(victim).to.exist;
+    expect(victim).to.be.an.instanceof(SchemaTypes.Embedded);
+
+    expect(name).to.exist;
+    expect(name).to.be.instanceof(SchemaTypes.String);
+    expect(name.options).to.exist;
+    expect(name.options).to.be.an('object');
+    expect(name.options.type).to.exist;
+    expect(name.options.trim).to.be.true;
+    expect(name.options.index).to.be.true;
+    expect(name.options.searchable).to.be.true;
+    expect(name.options.taggable).to.be.true;
+    expect(name.options.exportable).to.be.true;
+    expect(name.options.fake).to.exist;
+
+    expect(mobile).to.exist;
+    expect(mobile).to.be.instanceof(SchemaTypes.String);
+    expect(mobile.options).to.exist;
+    expect(mobile.options).to.be.an('object');
+    expect(mobile.options.type).to.exist;
+    expect(mobile.options.trim).to.be.true;
+    expect(mobile.options.index).to.be.true;
+    expect(mobile.options.searchable).to.be.true;
+    expect(mobile.options.taggable).to.be.true;
+    expect(mobile.options.exportable).to.be.true;
+    expect(mobile.options.fake).to.exist;
+  });
+
   it('should have description field', () => {
     const description = VehicleDispatch.path('description');
 
@@ -99,6 +165,84 @@ describe('VehicleDispatch Schema', () => {
     expect(description.options.searchable).to.be.true;
     expect(description.options.exportable).to.be.true;
     expect(description.options.fake).to.exist;
+  });
+
+  it('should have pickup field', () => {
+    const pickup = VehicleDispatch.path('pickup');
+    const address = VehicleDispatch.path('pickup.address');
+
+    expect(pickup).to.exist;
+    expect(pickup).to.be.an.instanceof(SchemaTypes.Embedded);
+
+    expect(address).to.exist;
+    expect(address).to.be.instanceof(SchemaTypes.String);
+    expect(address.options).to.exist;
+    expect(address.options).to.be.an('object');
+    expect(address.options.type).to.exist;
+    expect(address.options.trim).to.be.true;
+    expect(address.options.index).to.be.true;
+    expect(address.options.searchable).to.be.true;
+    expect(address.options.taggable).to.be.true;
+    expect(address.options.exportable).to.be.true;
+    expect(address.options.fake).to.exist;
+  });
+
+  it('should have dropoff field', () => {
+    const dropoff = VehicleDispatch.path('dropoff');
+    const address = VehicleDispatch.path('dropoff.address');
+
+    expect(dropoff).to.exist;
+    expect(dropoff).to.be.an.instanceof(SchemaTypes.Embedded);
+
+    expect(address).to.exist;
+    expect(address).to.be.instanceof(SchemaTypes.String);
+    expect(address.options).to.exist;
+    expect(address.options).to.be.an('object');
+    expect(address.options.type).to.exist;
+    expect(address.options.trim).to.be.true;
+    expect(address.options.index).to.be.true;
+    expect(address.options.searchable).to.be.true;
+    expect(address.options.taggable).to.be.true;
+    expect(address.options.exportable).to.be.true;
+    expect(address.options.fake).to.exist;
+  });
+
+  it('should have carrier field', () => {
+    const carrier = VehicleDispatch.path('carrier');
+    const type = VehicleDispatch.path('carrier.type');
+    const owner = VehicleDispatch.path('carrier.owner');
+    const vehicle = VehicleDispatch.path('carrier.vehicle');
+
+    expect(carrier).to.exist;
+    expect(carrier).to.be.an.instanceof(SchemaTypes.Embedded);
+
+    expect(type).to.exist;
+    expect(type).to.be.instanceof(SchemaTypes.ObjectId);
+
+    expect(owner).to.exist;
+    expect(owner).to.be.instanceof(SchemaTypes.ObjectId);
+
+    expect(vehicle).to.exist;
+    expect(vehicle).to.be.instanceof(SchemaTypes.ObjectId);
+  });
+
+  it('should have crew field', () => {
+    const crew = VehicleDispatch.path('crew');
+
+    expect(crew).to.exist;
+    expect(crew).to.be.instanceof(SchemaTypes.Array);
+    expect(crew.options).to.exist;
+    expect(crew.options).to.be.an('object');
+    expect(crew.options.type).to.exist;
+    expect(crew.options.ref).to.exist;
+    expect(crew.options.ref).to.be.equal(Party.MODEL_NAME);
+    // expect(crew.options.required).to.be.true;
+    expect(crew.options.exists).to.be.true;
+    expect(crew.options.autopopulate).to.exist;
+    expect(crew.options.taggable).to.exist;
+    expect(crew.options.exportable).to.exist;
+    // expect(crew.options.aggregatable).to.exist;
+    expect(crew.options.default).to.be.undefined;
   });
 
   it('should have status field', () => {

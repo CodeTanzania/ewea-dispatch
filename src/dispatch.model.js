@@ -25,10 +25,17 @@ import {
   remarks,
 } from './schema/base.schema';
 import {
+  requester,
+  victim,
+  destination,
+  carrier,
+} from './schema/common.schema';
+import {
   reporter,
   dispatcher,
   canceler,
   resolver,
+  crew,
 } from './schema/parties.schema';
 import {
   reportedAt,
@@ -38,8 +45,11 @@ import {
 } from './schema/dates.schema';
 
 const SCHEMA = mergeObjects(
-  { group, type, event },
-  { number, description },
+  { group, type, event, number },
+  { requester, victim },
+  { description },
+  { pickup: destination, dropoff: destination },
+  { carrier, crew },
   { status },
   { reportedAt, reporter },
   { dispatchedAt, dispatcher },
@@ -117,6 +127,9 @@ VehicleDispatchSchema.pre('validate', function onPreValidate(done) {
 VehicleDispatchSchema.methods.preValidate = function preValidate(done) {
   // ensure started(or reported) date
   this.reportedAt = this.reportedAt || new Date();
+
+  // TODO: ensure requestor from victim or requester facility
+  // TODO: esnure requestor, victim, pickup address
 
   // ensure group and type
   const eventType = get(this, 'event.type', this.type);

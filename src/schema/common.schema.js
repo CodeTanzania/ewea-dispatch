@@ -3,6 +3,9 @@ import { Point } from 'mongoose-geojson-schemas';
 import { ObjectId, createSubSchema } from '@lykmapipo/mongoose-common';
 import { Predefine } from '@lykmapipo/predefine';
 
+import { correspondent } from './parties.schema';
+import { arrivedAt, dispatchedAt } from './dates.schema';
+import { remarks } from './base.schema';
 import { PREDEFINE_OPTION_AUTOPOPULATE } from '../internals';
 
 /**
@@ -329,7 +332,7 @@ export const gender = {
  * @property {object} facility - Facility of the requester
  * @property {object} area - Administrative area of the requester
  * @property {object} location - Geo-point of the requester
- * @property {object} address - Address of the requester
+ * @property {string} address - Address of the requester
  *
  * @author lally elias <lallyelias87@gmail.com>
  * @since 0.1.0
@@ -366,7 +369,7 @@ export const requester = createSubSchema({
  * @property {object} gender - Gender of the victim
  * @property {number} age - Age of the victim
  * @property {number} weight - Weight of the victim
- * @property {object} address - Address of the victim
+ * @property {string} address - Address of the victim
  *
  * @author lally elias <lallyelias87@gmail.com>
  * @since 0.1.0
@@ -391,4 +394,42 @@ export const victim = createSubSchema({
   age,
   weight,
   address,
+});
+
+/**
+ * @name destination
+ * @description Vehicle dispatch pick-up(or drop-off) location.
+ * @type {object}
+ * @property {object} facility - Facility of the destination
+ * @property {object} area - Administrative area of the destination
+ * @property {object} location - Geo-point of the destination
+ * @property {string} address - Address of the destination
+ * @property {Date} arrivedAt - Arrive date of the destination
+ * @property {Date} dispatcheAt - Dispatch date of the destination
+ * @property {object} correspondent - Answerable of the destination
+ * @author lally elias <lallyelias87@gmail.com>
+ * @since 0.1.0
+ * @version 0.1.0
+ * @instance
+ * @example
+ * {
+ * facility: { name: { en: "Amana Hospital"} },
+ * area: { name: { en: "Dar es Salaam"} },
+ * location: { type: "Point", coordinates: [39.2155451, -6.7269984] },
+ * address: "Tandale"
+ * arrivedAt: "2018-10-17T07:54:32.831Z",
+ * dispatchedAt: "2018-10-18T07:54:32.831Z",
+ * correspondent: { name: "Jane Doe" },
+ * remarks: "Well received"
+ * }
+ */
+export const destination = createSubSchema({
+  facility,
+  area,
+  location,
+  address,
+  arrivedAt,
+  dispatchedAt,
+  correspondent,
+  remarks,
 });

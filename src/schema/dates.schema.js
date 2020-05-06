@@ -57,6 +57,35 @@ export const dispatchedAt = {
 };
 
 /**
+ * @name arrivedAt
+ * @description Date when a vehicle dispatch arrived at
+ * the destination(i.e pick-up or drop-off).
+ *
+ * @memberof VehicleDispatch
+ *
+ * @type {object}
+ * @property {object} type - schema(data) type
+ * @property {boolean} index - ensure database index
+ * @property {object} fake - fake data generator options
+ *
+ * @author lally elias <lallyelias87@gmail.com>
+ * @since 0.1.0
+ * @version 0.1.0
+ * @instance
+ * @example
+ * 2018-10-17T07:54:32.831Z
+ */
+export const arrivedAt = {
+  type: Date,
+  index: true,
+  exportable: true,
+  fake: {
+    generator: 'date',
+    type: 'past',
+  },
+};
+
+/**
  * @name canceledAt
  * @description Date when a vehicle dispatch was canceled.
  *

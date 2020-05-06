@@ -39,6 +39,54 @@ export const name = {
 };
 
 /**
+ * @name age
+ * @description Current age of the party(i.e individual).
+ *
+ *
+ * @property {object} type - schema(data) type
+ * @property {boolean} trim - force trimming
+ * @property {boolean} index - ensure database index
+ * @property {object} fake - fake data generator options
+ *
+ * @author lally elias <lallyelias87@gmail.com>
+ * @since 0.1.0
+ * @version 0.1.0
+ * @instance
+ * @example
+ * 23
+ */
+export const age = {
+  type: Number,
+  index: true,
+  exportable: true,
+  fake: (f) => f.random.number(),
+};
+
+/**
+ * @name weight
+ * @description Current weight of the party(i.e individual).
+ *
+ *
+ * @property {object} type - schema(data) type
+ * @property {boolean} trim - force trimming
+ * @property {boolean} index - ensure database index
+ * @property {object} fake - fake data generator options
+ *
+ * @author lally elias <lallyelias87@gmail.com>
+ * @since 0.1.0
+ * @version 0.1.0
+ * @instance
+ * @example
+ * 53
+ */
+export const weight = {
+  type: Number,
+  index: true,
+  exportable: true,
+  fake: (f) => f.random.number(),
+};
+
+/**
  * @name phone
  * @description A mobile phone number of the party(i.e individual).
  *
@@ -118,6 +166,39 @@ export const address = {
   fake: {
     generator: 'address',
     type: 'county',
+  },
+};
+
+/**
+ * @name referral
+ * @description Referral number of the party(i.e patient or victim).
+ *
+ *
+ * @property {object} type - schema(data) type
+ * @property {boolean} trim - force trimming
+ * @property {boolean} index - ensure database index
+ * @property {boolean} searchable - allow for searching
+ * @property {boolean} taggable - allow field use for tagging
+ * @property {boolean} exportable - allow field use for exporting
+ * @property {object} fake - fake data generator options
+ *
+ * @author lally elias <lallyelias87@gmail.com>
+ * @since 0.1.0
+ * @version 0.1.0
+ * @instance
+ * @example
+ * AMN-5657
+ */
+export const referral = {
+  type: String,
+  trim: true,
+  index: true,
+  searchable: true,
+  taggable: true,
+  exportable: true,
+  fake: {
+    generator: 'finance',
+    type: 'account',
   },
 };
 
@@ -270,5 +351,44 @@ export const requester = createSubSchema({
   facility,
   area,
   location,
+  address,
+});
+
+/**
+ * @name victim
+ * @description A party(i.e patient or victim) whom a vehicle dispatch
+ * is requested for.
+ *
+ * @type {object}
+ * @property {string} referral - Valid referral number
+ * @property {string} name - Full name of the victim
+ * @property {string} mobile - Mobile phone number of the victim
+ * @property {object} gender - Gender of the victim
+ * @property {number} age - Age of the victim
+ * @property {number} weight - Weight of the victim
+ * @property {object} address - Address of the victim
+ *
+ * @author lally elias <lallyelias87@gmail.com>
+ * @since 0.1.0
+ * @version 0.1.0
+ * @instance
+ * @example
+ * {
+ *   referral: "AMN-5657",
+ *   name: "Jane Doe",
+ *   mobile: "+255715463739",
+ *   gender: { name: { en: "Female"} },
+ *   age: 23,
+ *   weight: 53,
+ *   address: "Tandale"
+ * }
+ */
+export const victim = createSubSchema({
+  referral,
+  name,
+  mobile,
+  gender,
+  age,
+  weight,
   address,
 });

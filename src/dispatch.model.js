@@ -30,6 +30,7 @@ import {
   dispatcher,
   canceler,
   resolver,
+  crew,
 } from './schema/parties.schema';
 import {
   reportedAt,
@@ -43,6 +44,7 @@ const SCHEMA = mergeObjects(
   { requester, victim },
   { description },
   { pickup: destination, dropoff: destination },
+  { crew },
   { status },
   { reportedAt, reporter },
   { dispatchedAt, dispatcher },

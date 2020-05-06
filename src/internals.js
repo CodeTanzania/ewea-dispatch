@@ -35,3 +35,8 @@ export const PREDEFINE_OPTION_AUTOPOPULATE = {
   select: PREDEFINE_OPTION_SELECT,
   maxDepth: POPULATION_MAX_DEPTH,
 };
+
+export const PARTY_OPTION_AUTOPOPULATE = {
+  select: { name: 1, email: 1, mobile: 1, abbreviation: 1, role: 1 },
+  maxDepth: POPULATION_MAX_DEPTH,
+};

@@ -207,6 +207,25 @@ describe('VehicleDispatch Schema', () => {
     expect(address.options.fake).to.exist;
   });
 
+  it('should have crew field', () => {
+    const crew = VehicleDispatch.path('crew');
+
+    expect(crew).to.exist;
+    expect(crew).to.be.instanceof(SchemaTypes.Array);
+    expect(crew.options).to.exist;
+    expect(crew.options).to.be.an('object');
+    expect(crew.options.type).to.exist;
+    expect(crew.options.ref).to.exist;
+    expect(crew.options.ref).to.be.equal(Party.MODEL_NAME);
+    // expect(crew.options.required).to.be.true;
+    expect(crew.options.exists).to.be.true;
+    expect(crew.options.autopopulate).to.exist;
+    expect(crew.options.taggable).to.exist;
+    expect(crew.options.exportable).to.exist;
+    // expect(crew.options.aggregatable).to.exist;
+    expect(crew.options.default).to.be.undefined;
+  });
+
   it('should have status field', () => {
     const status = VehicleDispatch.path('status');
 

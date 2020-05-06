@@ -19,7 +19,7 @@ const dispatches = [
       weight: 51,
       address: 'Tandale',
     },
-    description: 'Severe fracture from motorcycle accident.',
+    description: 'Severe injury from Floods.',
     pickup: {
       location: {
         type: 'Point',
@@ -38,13 +38,12 @@ const dispatches = [
       address: 'Amana Hospital',
       arrivedAt: '2020-05-04T02:58:48.323Z',
       dispatchedAt: '2020-05-04T02:59:48.323Z',
-      remarks: 'Aut iure ea velit et pariatur.',
+      remarks: 'Handled.',
     },
     reportedAt: '2020-05-04T02:48:48.323Z',
     dispatchedAt: '2020-05-04T02:50:48.323Z',
     resolvedAt: '2020-05-04T02:59:58.323Z',
     remarks: 'Handled.',
-
     populate: {
       group: {
         match: { 'strings.name.en': 'Hydrological' },
@@ -52,10 +51,6 @@ const dispatches = [
       },
       type: {
         match: { namespace: 'EventType', 'strings.name.en': 'Floods' },
-        model: 'Predefine',
-      },
-      status: {
-        match: { namespace: 'VehicleStatus', 'strings.name.en': 'Operational' },
         model: 'Predefine',
       },
       'pickup.area': {
@@ -89,6 +84,10 @@ const dispatches = [
         match: { name: { $in: ['Lally Elias', 'Benson Maruchu'] } },
         model: 'Party',
         array: true,
+      },
+      status: {
+        match: { namespace: 'VehicleStatus', 'strings.name.en': 'Operational' },
+        model: 'Predefine',
       },
     },
   },

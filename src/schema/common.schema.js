@@ -1,9 +1,10 @@
+import { get } from 'lodash';
 import { compact } from '@lykmapipo/common';
 import { Point } from 'mongoose-geojson-schemas';
 import { ObjectId, createSubSchema } from '@lykmapipo/mongoose-common';
 import { Predefine } from '@lykmapipo/predefine';
 
-import { correspondent } from './parties.schema';
+import { owner, correspondent } from './parties.schema';
 import { arrivedAt, dispatchedAt } from './dates.schema';
 import { remarks } from './base.schema';
 import { PREDEFINE_OPTION_AUTOPOPULATE } from '../internals';
@@ -322,6 +323,94 @@ export const gender = {
 };
 
 /**
+ * @name type
+ * @description Type of a vehicle dispatched.
+ *
+ * @memberof VehicleDispatch
+ *
+ * @type {object}
+ * @property {object} type - schema(data) type
+ * @property {boolean} required - mark required
+ * @property {boolean} index - ensure database index
+ * @property {boolean} exists - ensure ref exists before save
+ * @property {object} autopopulate - auto populate(eager loading) options
+ * @property {boolean} taggable - allow field use for tagging
+ * @property {boolean} exportable - allow field use for exporting
+ * @property {boolean} aggregatable - allow field use for aggregation
+ * @property {boolean} default - default value set when none provided
+ * @property {object} fake - fake data generator options
+ *
+ * @author lally elias <lallyelias87@gmail.com>
+ * @since 0.1.0
+ * @version 0.1.0
+ * @instance
+ * @example
+ * {
+ *   _id: '5dde6ca33631a92c2d616298',
+ *   strings: { name: { en: 'Ambulance' } },
+ * }
+ */
+export const type = {
+  type: ObjectId,
+  ref: Predefine.MODEL_NAME,
+  // required: true,
+  index: true,
+  exists: true,
+  aggregatable: { unwind: true },
+  autopopulate: PREDEFINE_OPTION_AUTOPOPULATE,
+  taggable: true,
+  exportable: {
+    format: (v) => get(v, 'strings.name.en'),
+    default: 'NA',
+  },
+  default: undefined,
+};
+
+/**
+ * @name vehicle
+ * @description Actual vehicle dispatched.
+ *
+ * @memberof VehicleDispatch
+ *
+ * @type {object}
+ * @property {object} type - schema(data) type
+ * @property {boolean} required - mark required
+ * @property {boolean} index - ensure database index
+ * @property {boolean} exists - ensure ref exists before save
+ * @property {object} autopopulate - auto populate(eager loading) options
+ * @property {boolean} taggable - allow field use for tagging
+ * @property {boolean} exportable - allow field use for exporting
+ * @property {boolean} aggregatable - allow field use for aggregation
+ * @property {boolean} default - default value set when none provided
+ * @property {object} fake - fake data generator options
+ *
+ * @author lally elias <lallyelias87@gmail.com>
+ * @since 0.1.0
+ * @version 0.1.0
+ * @instance
+ * @example
+ * {
+ *   _id: '5dde6ca33631a92c2d616298',
+ *   strings: { name: { en: 'T 123 ABC' } },
+ * }
+ */
+export const vehicle = {
+  type: ObjectId,
+  ref: Predefine.MODEL_NAME,
+  // required: true,
+  index: true,
+  exists: true,
+  aggregatable: { unwind: true },
+  autopopulate: PREDEFINE_OPTION_AUTOPOPULATE,
+  taggable: true,
+  exportable: {
+    format: (v) => get(v, 'strings.name.en'),
+    default: 'NA',
+  },
+  default: undefined,
+};
+
+/**
  * @name requester
  * @description A party who is requesting a vehicle dispatch on
  * behalf of another party.
@@ -432,4 +521,30 @@ export const destination = createSubSchema({
   dispatchedAt,
   correspondent,
   remarks,
+});
+
+/**
+ * @name vehicle
+ * @description Dispatched vehicle details.
+ *
+ * @type {object}
+ * @property {object} type - Type of the vehicle
+ * @property {object} owner - Owner of the vehicle
+ * @property {object} vehicle - Actual vehicle
+ *
+ * @author lally elias <lallyelias87@gmail.com>
+ * @since 0.1.0
+ * @version 0.1.0
+ * @instance
+ * @example
+ * {
+ *   type: { name: { en: "Ambulance"} },
+ *   owner: { name: { en: "Amana Hospital"} },
+ *   vehicle: { name: { en: "T 123 ABC"} }
+ * }
+ */
+export const carrier = createSubSchema({
+  type,
+  owner,
+  vehicle,
 });

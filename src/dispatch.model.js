@@ -24,7 +24,12 @@ import {
   status,
   remarks,
 } from './schema/base.schema';
-import { requester, victim, destination } from './schema/common.schema';
+import {
+  requester,
+  victim,
+  destination,
+  carrier,
+} from './schema/common.schema';
 import {
   reporter,
   dispatcher,
@@ -44,7 +49,7 @@ const SCHEMA = mergeObjects(
   { requester, victim },
   { description },
   { pickup: destination, dropoff: destination },
-  { crew },
+  { carrier, crew },
   { status },
   { reportedAt, reporter },
   { dispatchedAt, dispatcher },

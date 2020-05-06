@@ -207,6 +207,25 @@ describe('VehicleDispatch Schema', () => {
     expect(address.options.fake).to.exist;
   });
 
+  it('should have carrier field', () => {
+    const carrier = VehicleDispatch.path('carrier');
+    const type = VehicleDispatch.path('carrier.type');
+    const owner = VehicleDispatch.path('carrier.owner');
+    const vehicle = VehicleDispatch.path('carrier.vehicle');
+
+    expect(carrier).to.exist;
+    expect(carrier).to.be.an.instanceof(SchemaTypes.Embedded);
+
+    expect(type).to.exist;
+    expect(type).to.be.instanceof(SchemaTypes.ObjectId);
+
+    expect(owner).to.exist;
+    expect(owner).to.be.instanceof(SchemaTypes.ObjectId);
+
+    expect(vehicle).to.exist;
+    expect(vehicle).to.be.instanceof(SchemaTypes.ObjectId);
+  });
+
   it('should have crew field', () => {
     const crew = VehicleDispatch.path('crew');
 

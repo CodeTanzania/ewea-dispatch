@@ -169,10 +169,23 @@ describe('VehicleDispatch Schema', () => {
 
   it('should have pickup field', () => {
     const pickup = VehicleDispatch.path('pickup');
+    const correspondent = VehicleDispatch.path('pickup.correspondent');
     const address = VehicleDispatch.path('pickup.address');
 
     expect(pickup).to.exist;
     expect(pickup).to.be.an.instanceof(SchemaTypes.Embedded);
+
+    expect(correspondent).to.exist;
+    expect(correspondent).to.be.instanceof(SchemaTypes.String);
+    expect(correspondent.options).to.exist;
+    expect(correspondent.options).to.be.an('object');
+    expect(correspondent.options.type).to.exist;
+    expect(correspondent.options.trim).to.be.true;
+    expect(correspondent.options.index).to.be.true;
+    expect(correspondent.options.searchable).to.be.true;
+    expect(correspondent.options.taggable).to.be.true;
+    expect(correspondent.options.exportable).to.be.true;
+    expect(correspondent.options.fake).to.exist;
 
     expect(address).to.exist;
     expect(address).to.be.instanceof(SchemaTypes.String);
@@ -189,10 +202,23 @@ describe('VehicleDispatch Schema', () => {
 
   it('should have dropoff field', () => {
     const dropoff = VehicleDispatch.path('dropoff');
+    const correspondent = VehicleDispatch.path('dropoff.correspondent');
     const address = VehicleDispatch.path('dropoff.address');
 
     expect(dropoff).to.exist;
     expect(dropoff).to.be.an.instanceof(SchemaTypes.Embedded);
+
+    expect(correspondent).to.exist;
+    expect(correspondent).to.be.instanceof(SchemaTypes.String);
+    expect(correspondent.options).to.exist;
+    expect(correspondent.options).to.be.an('object');
+    expect(correspondent.options.type).to.exist;
+    expect(correspondent.options.trim).to.be.true;
+    expect(correspondent.options.index).to.be.true;
+    expect(correspondent.options.searchable).to.be.true;
+    expect(correspondent.options.taggable).to.be.true;
+    expect(correspondent.options.exportable).to.be.true;
+    expect(correspondent.options.fake).to.exist;
 
     expect(address).to.exist;
     expect(address).to.be.instanceof(SchemaTypes.String);

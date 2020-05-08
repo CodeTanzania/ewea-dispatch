@@ -28,6 +28,7 @@ const dispatches = [
       address: 'Tandale',
       arrivedAt: '2020-05-04T02:54:48.323Z',
       dispatchedAt: '2020-05-04T02:56:48.323Z',
+      name: 'Jabiri Mdoe',
       remarks: 'Handled.',
     },
     dropoff: {
@@ -38,6 +39,7 @@ const dispatches = [
       address: 'Amana Hospital',
       arrivedAt: '2020-05-04T02:58:48.323Z',
       dispatchedAt: '2020-05-04T02:59:48.323Z',
+      name: 'Anna Mdoe',
       remarks: 'Handled.',
     },
     reportedAt: '2020-05-04T02:48:48.323Z',

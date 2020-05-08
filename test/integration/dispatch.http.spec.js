@@ -14,13 +14,17 @@ import { Event } from '@codetanzania/ewea-event';
 import { VehicleDispatch, vehicleDispatchRouter } from '../../src';
 
 describe('VehicleDispatch Rest API', () => {
+  const role = Predefine.fake();
+
   const reporter = Party.fake();
+  reporter.set({ role });
+
   const group = Predefine.fake();
   const type = Predefine.fake();
   const event = Event.fake();
 
   const dispatch = VehicleDispatch.fakeExcept('number');
-  dispatch.set({ group, type, event, reporter });
+  dispatch.set({ group, type, event, reporter, crew: [reporter] });
 
   const options = {
     pathSingle: '/dispatches/:id',
@@ -35,7 +39,9 @@ describe('VehicleDispatch Rest API', () => {
 
   beforeEach(() => createModels());
 
-  before((done) => create(group, type, event, reporter, done));
+  before((done) => create(role, group, type, done));
+  before((done) => create(reporter, done));
+  before((done) => create(event, done));
 
   it('should handle HTTP POST on /events', (done) => {
     const { testPost } = testRouter(options, vehicleDispatchRouter);

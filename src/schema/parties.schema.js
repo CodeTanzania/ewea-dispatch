@@ -41,7 +41,7 @@ export const owner = {
   // required: true,
   index: true,
   exists: true,
-  autopopulate: Party.OPTION_AUTOPOPULATE,
+  autopopulate: PARTY_OPTION_AUTOPOPULATE,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'name'),
@@ -88,7 +88,7 @@ export const reporter = {
   // required: true,
   index: true,
   exists: true,
-  autopopulate: Party.OPTION_AUTOPOPULATE,
+  autopopulate: PARTY_OPTION_AUTOPOPULATE,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'name'),
@@ -135,7 +135,7 @@ export const dispatcher = {
   // required: true,
   index: true,
   exists: true,
-  autopopulate: Party.OPTION_AUTOPOPULATE,
+  autopopulate: PARTY_OPTION_AUTOPOPULATE,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'name'),
@@ -182,7 +182,7 @@ export const canceler = {
   // required: true,
   index: true,
   exists: true,
-  autopopulate: Party.OPTION_AUTOPOPULATE,
+  autopopulate: PARTY_OPTION_AUTOPOPULATE,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'name'),
@@ -229,7 +229,7 @@ export const resolver = {
   // required: true,
   index: true,
   exists: true,
-  autopopulate: Party.OPTION_AUTOPOPULATE,
+  autopopulate: PARTY_OPTION_AUTOPOPULATE,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'name'),

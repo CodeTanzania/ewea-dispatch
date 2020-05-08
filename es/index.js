@@ -37,19 +37,48 @@ const VEHICLEDISPATCH_OPTION_AUTOPOPULATE = {
 };
 
 // relation options
-const PREDEFINE_OPTION_SELECT = {
-  'strings.name': 1,
-  'strings.color': 1,
-  'strings.code': 1,
-};
-const PREDEFINE_OPTION_AUTOPOPULATE = {
-  select: PREDEFINE_OPTION_SELECT,
+
+// TODO: refactor to ewea-internals
+const AUTOPOPULATE_OPTION_PREDEFINE = {
+  select: {
+    'strings.name': 1,
+    'strings.color': 1,
+    'strings.code': 1,
+  },
   maxDepth: POPULATION_MAX_DEPTH,
 };
 
-const PARTY_OPTION_AUTOPOPULATE = {
+// TODO: refactor to ewea-internals
+const AUTOPOPULATE_OPTION_AREA = {
+  select: {
+    'strings.name': 1,
+    'strings.color': 1,
+    'strings.code': 1,
+    'relations.level': 1,
+  },
+  maxDepth: 2,
+};
+
+// TODO: refactor to ewea-internals
+const AUTOPOPULATE_OPTION_VEHICLE = {
+  select: {
+    'strings.name': 1,
+    'strings.color': 1,
+    'strings.code': 1,
+    'relations.type': 1,
+    'relations.status': 1,
+    'relations.owner': 1,
+    'relations.ownership': 1,
+    'relations.area': 1,
+    'relations.facility': 1,
+  },
+  maxDepth: 2,
+};
+
+// TODO: refactor to ewea-internals
+const AUTOPOPULATE_OPTION_PARTY = {
   select: { name: 1, email: 1, mobile: 1, abbreviation: 1, role: 1 },
-  maxDepth: POPULATION_MAX_DEPTH,
+  maxDepth: 2,
 };
 
 /**
@@ -87,7 +116,7 @@ const group = {
   index: true,
   exists: true,
   aggregatable: { unwind: true },
-  autopopulate: PREDEFINE_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PREDEFINE,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'strings.name.en'),
@@ -131,7 +160,7 @@ const type = {
   index: true,
   exists: true,
   aggregatable: { unwind: true },
-  autopopulate: PREDEFINE_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PREDEFINE,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'strings.name.en'),
@@ -312,7 +341,7 @@ const status = {
   index: true,
   exists: true,
   aggregatable: { unwind: true },
-  autopopulate: PREDEFINE_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PREDEFINE,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'strings.name.en'),
@@ -391,7 +420,7 @@ const owner = {
   // required: true,
   index: true,
   exists: true,
-  autopopulate: Party.OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PARTY,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'name'),
@@ -438,7 +467,7 @@ const reporter = {
   // required: true,
   index: true,
   exists: true,
-  autopopulate: Party.OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PARTY,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'name'),
@@ -485,7 +514,7 @@ const dispatcher = {
   // required: true,
   index: true,
   exists: true,
-  autopopulate: Party.OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PARTY,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'name'),
@@ -532,7 +561,7 @@ const canceler = {
   // required: true,
   index: true,
   exists: true,
-  autopopulate: Party.OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PARTY,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'name'),
@@ -579,7 +608,7 @@ const resolver = {
   // required: true,
   index: true,
   exists: true,
-  autopopulate: Party.OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PARTY,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'name'),
@@ -591,50 +620,37 @@ const resolver = {
 
 /**
  * @name correspondent
- * @description A contact party of vehicle dispatch
+ * @description Full name of a contact party of vehicle dispatch
  * destination(i.e pick-up or drop-off).
  *
  * @memberof VehicleDispatch
  *
- * @type {object}
  * @property {object} type - schema(data) type
- * @property {boolean} required - mark required
+ * @property {boolean} trim - force trimming
  * @property {boolean} index - ensure database index
- * @property {boolean} exists - ensure ref exists before save
- * @property {object} autopopulate - auto populate(eager loading) options
+ * @property {boolean} searchable - allow for searching
  * @property {boolean} taggable - allow field use for tagging
  * @property {boolean} exportable - allow field use for exporting
- * @property {boolean} aggregatable - allow field use for aggregation
- * @property {boolean} default - default value set when none provided
  * @property {object} fake - fake data generator options
  *
  * @author lally elias <lallyelias87@gmail.com>
  * @since 0.1.0
- * @version 0.1.0
+ * @version 0.2.0
  * @instance
  * @example
- * {
- *   _id: "5bcda2c073dd0700048fb846",
- *   name: "Jane Doe",
- *   mobile: "+255715463739",
- *   email: "jane.doe@example.com",
- *   role: { name: { en: "Driver" } }
- * }
+ * Jane Doe
  */
 const correspondent = {
-  type: ObjectId,
-  ref: Party.MODEL_NAME,
-  // required: true,
+  type: String,
+  trim: true,
   index: true,
-  exists: true,
-  autopopulate: Party.OPTION_AUTOPOPULATE,
+  searchable: true,
   taggable: true,
-  exportable: {
-    format: (v) => get(v, 'name'),
-    default: 'NA',
+  exportable: true,
+  fake: {
+    generator: 'name',
+    type: 'findName',
   },
-  aggregatable: { unwind: true },
-  default: undefined,
 };
 
 /**
@@ -673,7 +689,7 @@ const crew = {
   index: true,
   exists: true,
   // duplicate: deduplicate,
-  autopopulate: PARTY_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PARTY,
   taggable: true,
   exportable: {
     format: (v) => join(v, ', ', 'name'),
@@ -1023,6 +1039,40 @@ const referral = {
 };
 
 /**
+ * @name pcr
+ * @description Patient care record number of the
+ * party(i.e patient or victim).
+ *
+ *
+ * @property {object} type - schema(data) type
+ * @property {boolean} trim - force trimming
+ * @property {boolean} index - ensure database index
+ * @property {boolean} searchable - allow for searching
+ * @property {boolean} taggable - allow field use for tagging
+ * @property {boolean} exportable - allow field use for exporting
+ * @property {object} fake - fake data generator options
+ *
+ * @author lally elias <lallyelias87@gmail.com>
+ * @since 0.1.0
+ * @version 0.1.0
+ * @instance
+ * @example
+ * PTN-8687
+ */
+const pcr = {
+  type: String,
+  trim: true,
+  index: true,
+  searchable: true,
+  taggable: true,
+  exportable: true,
+  fake: {
+    generator: 'finance',
+    type: 'account',
+  },
+};
+
+/**
  * @name area
  * @description Assignable administrative area of a party.
  *
@@ -1048,7 +1098,7 @@ const area = {
   index: true,
   exists: true,
   aggregatable: { unwind: true },
-  autopopulate: PREDEFINE_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_AREA,
   taggable: true,
   exportable: {
     header: 'Area',
@@ -1086,7 +1136,7 @@ const facility = {
   index: true,
   exists: true,
   aggregatable: { unwind: true },
-  autopopulate: PREDEFINE_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PREDEFINE,
   taggable: true,
   exportable: {
     header: 'Facility',
@@ -1125,7 +1175,7 @@ const gender = {
   index: true,
   exists: true,
   aggregatable: { unwind: true },
-  autopopulate: PREDEFINE_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PREDEFINE,
   taggable: true,
   exportable: {
     header: 'Gender',
@@ -1173,7 +1223,7 @@ const type$1 = {
   index: true,
   exists: true,
   aggregatable: { unwind: true },
-  autopopulate: PREDEFINE_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PREDEFINE,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'strings.name.en'),
@@ -1217,7 +1267,7 @@ const vehicle = {
   index: true,
   exists: true,
   aggregatable: { unwind: true },
-  autopopulate: PREDEFINE_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_VEHICLE,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'strings.name.en'),
@@ -1269,6 +1319,7 @@ const requester = createSubSchema({
  *
  * @type {object}
  * @property {string} referral - Valid referral number
+ * @property {string} pcr - Valid patient care number
  * @property {string} name - Full name of the victim
  * @property {string} mobile - Mobile phone number of the victim
  * @property {object} gender - Gender of the victim
@@ -1283,22 +1334,27 @@ const requester = createSubSchema({
  * @example
  * {
  *   referral: "AMN-5657",
+ *   pcr: "PTN-8687",
  *   name: "Jane Doe",
  *   mobile: "+255715463739",
  *   gender: { name: { en: "Female"} },
  *   age: 23,
  *   weight: 53,
- *   address: "Tandale"
+ *   address: "Tandale",
+ *   area: { name: { en: "Dar es Salaam"} }
  * }
  */
 const victim = createSubSchema({
   referral,
+  pcr,
   name,
   mobile,
   gender,
   age,
   weight,
+  description,
   address,
+  area,
 });
 
 /**
@@ -1311,21 +1367,22 @@ const victim = createSubSchema({
  * @property {string} address - Address of the destination
  * @property {Date} arrivedAt - Arrive date of the destination
  * @property {Date} dispatcheAt - Dispatch date of the destination
- * @property {object} correspondent - Answerable of the destination
+ * @property {object} correspondent - Answerable party of the destination
+ * @property {object} remarks - Feedback of the destination
  * @author lally elias <lallyelias87@gmail.com>
  * @since 0.1.0
  * @version 0.1.0
  * @instance
  * @example
  * {
- * facility: { name: { en: "Amana Hospital"} },
- * area: { name: { en: "Dar es Salaam"} },
- * location: { type: "Point", coordinates: [39.2155451, -6.7269984] },
- * address: "Tandale"
- * arrivedAt: "2018-10-17T07:54:32.831Z",
- * dispatchedAt: "2018-10-18T07:54:32.831Z",
- * correspondent: { name: "Jane Doe" },
- * remarks: "Well received"
+ *   facility: { name: { en: "Amana Hospital"} },
+ *   area: { name: { en: "Dar es Salaam"} },
+ *   location: { type: "Point", coordinates: [39.2155451, -6.7269984] },
+ *   address: "Tandale"
+ *   arrivedAt: "2018-10-17T07:54:32.831Z",
+ *   dispatchedAt: "2018-10-18T07:54:32.831Z",
+ *   correspondent: "Jane Doe",
+ *   remarks: "Well received"
  * }
  */
 const destination = createSubSchema({
@@ -1340,7 +1397,7 @@ const destination = createSubSchema({
 });
 
 /**
- * @name vehicle
+ * @name carrier
  * @description Dispatched vehicle details.
  *
  * @type {object}
@@ -1460,6 +1517,12 @@ VehicleDispatchSchema.methods.preValidate = function preValidate(done) {
   }
   if (!this.type) {
     this.type = eventType;
+  }
+
+  // ensure dispatchedAt if carrer vehicle assigned
+  const hasVehicle = get(this, 'carrier.vehicle');
+  if (hasVehicle && !this.dispatchedAt) {
+    this.dispatchedAt = new Date();
   }
 
   return done(null, this);

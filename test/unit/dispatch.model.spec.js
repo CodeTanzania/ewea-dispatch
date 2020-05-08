@@ -1,5 +1,6 @@
 import { omit } from 'lodash';
 import { expect } from '@lykmapipo/mongoose-test-helpers';
+import { Predefine } from '@lykmapipo/predefine';
 import VehicleDispatch from '../../src/dispatch.model';
 
 describe('VehicleDispatch Instance', () => {
@@ -17,6 +18,18 @@ describe('VehicleDispatch Instance', () => {
     expect(event.reportedAt).to.not.exist;
     event.preValidate((error) => {
       expect(event.reportedAt).to.exist;
+      done(error);
+    });
+  });
+
+  it('should set reportedAt on pre validate', (done) => {
+    const vehicle = Predefine.fake();
+    const event = VehicleDispatch.fakeExcept('dispatchedAt');
+    event.set({ carrier: { vehicle } });
+
+    expect(event.dispatchedAt).to.not.exist;
+    event.preValidate((error) => {
+      expect(event.dispatchedAt).to.exist;
       done(error);
     });
   });

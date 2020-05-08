@@ -5,7 +5,7 @@ import { ObjectId } from '@lykmapipo/mongoose-common';
 import { Predefine } from '@lykmapipo/predefine';
 import { Event } from '@codetanzania/ewea-event';
 
-import { PREDEFINE_OPTION_AUTOPOPULATE, COUNTRY_CODE } from '../internals';
+import { AUTOPOPULATE_OPTION_PREDEFINE, COUNTRY_CODE } from '../internals';
 
 /**
  * @name group
@@ -42,7 +42,7 @@ export const group = {
   index: true,
   exists: true,
   aggregatable: { unwind: true },
-  autopopulate: PREDEFINE_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PREDEFINE,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'strings.name.en'),
@@ -86,7 +86,7 @@ export const type = {
   index: true,
   exists: true,
   aggregatable: { unwind: true },
-  autopopulate: PREDEFINE_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PREDEFINE,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'strings.name.en'),
@@ -267,7 +267,7 @@ export const status = {
   index: true,
   exists: true,
   aggregatable: { unwind: true },
-  autopopulate: PREDEFINE_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PREDEFINE,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'strings.name.en'),

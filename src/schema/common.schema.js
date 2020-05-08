@@ -6,8 +6,12 @@ import { Predefine } from '@lykmapipo/predefine';
 
 import { owner, correspondent } from './parties.schema';
 import { arrivedAt, dispatchedAt } from './dates.schema';
-import { remarks } from './base.schema';
-import { PREDEFINE_OPTION_AUTOPOPULATE } from '../internals';
+import { description, remarks } from './base.schema';
+import {
+  AUTOPOPULATE_OPTION_PREDEFINE,
+  AUTOPOPULATE_OPTION_VEHICLE,
+  AUTOPOPULATE_OPTION_AREA,
+} from '../internals';
 
 /**
  * @name name
@@ -207,6 +211,40 @@ export const referral = {
 };
 
 /**
+ * @name pcr
+ * @description Patient care record number of the
+ * party(i.e patient or victim).
+ *
+ *
+ * @property {object} type - schema(data) type
+ * @property {boolean} trim - force trimming
+ * @property {boolean} index - ensure database index
+ * @property {boolean} searchable - allow for searching
+ * @property {boolean} taggable - allow field use for tagging
+ * @property {boolean} exportable - allow field use for exporting
+ * @property {object} fake - fake data generator options
+ *
+ * @author lally elias <lallyelias87@gmail.com>
+ * @since 0.1.0
+ * @version 0.1.0
+ * @instance
+ * @example
+ * PTN-8687
+ */
+export const pcr = {
+  type: String,
+  trim: true,
+  index: true,
+  searchable: true,
+  taggable: true,
+  exportable: true,
+  fake: {
+    generator: 'finance',
+    type: 'account',
+  },
+};
+
+/**
  * @name area
  * @description Assignable administrative area of a party.
  *
@@ -232,7 +270,7 @@ export const area = {
   index: true,
   exists: true,
   aggregatable: { unwind: true },
-  autopopulate: PREDEFINE_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_AREA,
   taggable: true,
   exportable: {
     header: 'Area',
@@ -270,7 +308,7 @@ export const facility = {
   index: true,
   exists: true,
   aggregatable: { unwind: true },
-  autopopulate: PREDEFINE_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PREDEFINE,
   taggable: true,
   exportable: {
     header: 'Facility',
@@ -309,7 +347,7 @@ export const gender = {
   index: true,
   exists: true,
   aggregatable: { unwind: true },
-  autopopulate: PREDEFINE_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PREDEFINE,
   taggable: true,
   exportable: {
     header: 'Gender',
@@ -357,7 +395,7 @@ export const type = {
   index: true,
   exists: true,
   aggregatable: { unwind: true },
-  autopopulate: PREDEFINE_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PREDEFINE,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'strings.name.en'),
@@ -401,7 +439,7 @@ export const vehicle = {
   index: true,
   exists: true,
   aggregatable: { unwind: true },
-  autopopulate: PREDEFINE_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_VEHICLE,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'strings.name.en'),
@@ -453,6 +491,7 @@ export const requester = createSubSchema({
  *
  * @type {object}
  * @property {string} referral - Valid referral number
+ * @property {string} pcr - Valid patient care number
  * @property {string} name - Full name of the victim
  * @property {string} mobile - Mobile phone number of the victim
  * @property {object} gender - Gender of the victim
@@ -467,22 +506,27 @@ export const requester = createSubSchema({
  * @example
  * {
  *   referral: "AMN-5657",
+ *   pcr: "PTN-8687",
  *   name: "Jane Doe",
  *   mobile: "+255715463739",
  *   gender: { name: { en: "Female"} },
  *   age: 23,
  *   weight: 53,
- *   address: "Tandale"
+ *   address: "Tandale",
+ *   area: { name: { en: "Dar es Salaam"} }
  * }
  */
 export const victim = createSubSchema({
   referral,
+  pcr,
   name,
   mobile,
   gender,
   age,
   weight,
+  description,
   address,
+  area,
 });
 
 /**
@@ -495,21 +539,22 @@ export const victim = createSubSchema({
  * @property {string} address - Address of the destination
  * @property {Date} arrivedAt - Arrive date of the destination
  * @property {Date} dispatcheAt - Dispatch date of the destination
- * @property {object} correspondent - Answerable of the destination
+ * @property {object} correspondent - Answerable party of the destination
+ * @property {object} remarks - Feedback of the destination
  * @author lally elias <lallyelias87@gmail.com>
  * @since 0.1.0
  * @version 0.1.0
  * @instance
  * @example
  * {
- * facility: { name: { en: "Amana Hospital"} },
- * area: { name: { en: "Dar es Salaam"} },
- * location: { type: "Point", coordinates: [39.2155451, -6.7269984] },
- * address: "Tandale"
- * arrivedAt: "2018-10-17T07:54:32.831Z",
- * dispatchedAt: "2018-10-18T07:54:32.831Z",
- * correspondent: { name: "Jane Doe" },
- * remarks: "Well received"
+ *   facility: { name: { en: "Amana Hospital"} },
+ *   area: { name: { en: "Dar es Salaam"} },
+ *   location: { type: "Point", coordinates: [39.2155451, -6.7269984] },
+ *   address: "Tandale"
+ *   arrivedAt: "2018-10-17T07:54:32.831Z",
+ *   dispatchedAt: "2018-10-18T07:54:32.831Z",
+ *   correspondent: "Jane Doe",
+ *   remarks: "Well received"
  * }
  */
 export const destination = createSubSchema({
@@ -524,7 +569,7 @@ export const destination = createSubSchema({
 });
 
 /**
- * @name vehicle
+ * @name carrier
  * @description Dispatched vehicle details.
  *
  * @type {object}

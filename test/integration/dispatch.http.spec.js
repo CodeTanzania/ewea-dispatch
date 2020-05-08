@@ -14,13 +14,29 @@ import { Event } from '@codetanzania/ewea-event';
 import { VehicleDispatch, vehicleDispatchRouter } from '../../src';
 
 describe('VehicleDispatch Rest API', () => {
+  // TODO: use namespaced faker(load ewea-internal)
+  const area = Predefine.fake();
+  const role = Predefine.fake();
+
   const reporter = Party.fake();
+  reporter.set({ role });
+
+  const vehicle = Predefine.fake();
+  vehicle.set({ owner: reporter, relations: { area } });
+
   const group = Predefine.fake();
   const type = Predefine.fake();
   const event = Event.fake();
 
   const dispatch = VehicleDispatch.fakeExcept('number');
-  dispatch.set({ group, type, event, reporter });
+  dispatch.set({
+    group,
+    type,
+    event,
+    reporter,
+    carrier: { vehicle },
+    crew: [reporter],
+  });
 
   const options = {
     pathSingle: '/dispatches/:id',
@@ -35,9 +51,12 @@ describe('VehicleDispatch Rest API', () => {
 
   beforeEach(() => createModels());
 
-  before((done) => create(group, type, event, reporter, done));
+  before((done) => create(role, group, type, area, done));
+  before((done) => create(reporter, done));
+  before((done) => create(vehicle, done));
+  before((done) => create(event, done));
 
-  it('should handle HTTP POST on /events', (done) => {
+  it('should handle HTTP POST on /dispatches', (done) => {
     const { testPost } = testRouter(options, vehicleDispatchRouter);
     testPost({ ...dispatch.toObject() })
       .expect(201)
@@ -54,7 +73,7 @@ describe('VehicleDispatch Rest API', () => {
       });
   });
 
-  it('should handle HTTP GET on /events', (done) => {
+  it('should handle HTTP GET on /dispatches', (done) => {
     const { testGet } = testRouter(options, vehicleDispatchRouter);
     testGet()
       .expect(200)
@@ -73,12 +92,12 @@ describe('VehicleDispatch Rest API', () => {
       });
   });
 
-  it('should handle GET /events/schema', (done) => {
+  it('should handle GET /dispatches/schema', (done) => {
     const { testGetSchema } = testRouter(options, vehicleDispatchRouter);
     testGetSchema().expect(200, done);
   });
 
-  it('should handle GET /events/export', (done) => {
+  it('should handle GET /dispatches/export', (done) => {
     const { testGetExport } = testRouter(options, vehicleDispatchRouter);
     testGetExport()
       .expect('Content-Type', 'text/csv; charset=utf-8')
@@ -88,7 +107,7 @@ describe('VehicleDispatch Rest API', () => {
       .expect(200, done);
   });
 
-  it('should handle HTTP GET on /events/:id', (done) => {
+  it('should handle HTTP GET on /dispatches/:id', (done) => {
     const { testGet } = testRouter(options, vehicleDispatchRouter);
     const params = { id: dispatch._id.toString() };
     testGet(params)
@@ -104,7 +123,7 @@ describe('VehicleDispatch Rest API', () => {
       });
   });
 
-  it('should handle HTTP PATCH on /events/:id', (done) => {
+  it('should handle HTTP PATCH on /dispatches/:id', (done) => {
     const { testPatch } = testRouter(options, vehicleDispatchRouter);
     const { description, remarks } = dispatch.fakeOnly(
       'description',
@@ -125,7 +144,7 @@ describe('VehicleDispatch Rest API', () => {
       });
   });
 
-  it('should handle HTTP PUT on /events/:id', (done) => {
+  it('should handle HTTP PUT on /dispatches/:id', (done) => {
     const { testPut } = testRouter(options, vehicleDispatchRouter);
     const { description, interventions } = dispatch.fakeOnly(
       'description',
@@ -146,7 +165,7 @@ describe('VehicleDispatch Rest API', () => {
       });
   });
 
-  it('should handle HTTP DELETE on /events/:id', (done) => {
+  it('should handle HTTP DELETE on /dispatches/:id', (done) => {
     const { testDelete } = testRouter(options, vehicleDispatchRouter);
     const params = { id: dispatch._id.toString() };
     testDelete(params)

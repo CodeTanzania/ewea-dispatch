@@ -141,6 +141,12 @@ VehicleDispatchSchema.methods.preValidate = function preValidate(done) {
     this.type = eventType;
   }
 
+  // ensure dispatchedAt if carrer vehicle assigned
+  const hasVehicle = get(this, 'carrier.vehicle');
+  if (hasVehicle && !this.dispatchedAt) {
+    this.dispatchedAt = new Date();
+  }
+
   return done(null, this);
 };
 

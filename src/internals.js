@@ -26,17 +26,46 @@ export const VEHICLEDISPATCH_OPTION_AUTOPOPULATE = {
 };
 
 // relation options
-export const PREDEFINE_OPTION_SELECT = {
-  'strings.name': 1,
-  'strings.color': 1,
-  'strings.code': 1,
-};
-export const PREDEFINE_OPTION_AUTOPOPULATE = {
-  select: PREDEFINE_OPTION_SELECT,
+
+// TODO: refactor to ewea-internals
+export const AUTOPOPULATE_OPTION_PREDEFINE = {
+  select: {
+    'strings.name': 1,
+    'strings.color': 1,
+    'strings.code': 1,
+  },
   maxDepth: POPULATION_MAX_DEPTH,
 };
 
-export const PARTY_OPTION_AUTOPOPULATE = {
+// TODO: refactor to ewea-internals
+export const AUTOPOPULATE_OPTION_AREA = {
+  select: {
+    'strings.name': 1,
+    'strings.color': 1,
+    'strings.code': 1,
+    'relations.level': 1,
+  },
+  maxDepth: 2,
+};
+
+// TODO: refactor to ewea-internals
+export const AUTOPOPULATE_OPTION_VEHICLE = {
+  select: {
+    'strings.name': 1,
+    'strings.color': 1,
+    'strings.code': 1,
+    'relations.type': 1,
+    'relations.status': 1,
+    'relations.owner': 1,
+    'relations.ownership': 1,
+    'relations.area': 1,
+    'relations.facility': 1,
+  },
+  maxDepth: 2,
+};
+
+// TODO: refactor to ewea-internals
+export const AUTOPOPULATE_OPTION_PARTY = {
   select: { name: 1, email: 1, mobile: 1, abbreviation: 1, role: 1 },
-  maxDepth: POPULATION_MAX_DEPTH,
+  maxDepth: 2,
 };

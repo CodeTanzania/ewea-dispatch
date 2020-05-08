@@ -207,6 +207,40 @@ export const referral = {
 };
 
 /**
+ * @name pcr
+ * @description Patient care record number of the
+ * party(i.e patient or victim).
+ *
+ *
+ * @property {object} type - schema(data) type
+ * @property {boolean} trim - force trimming
+ * @property {boolean} index - ensure database index
+ * @property {boolean} searchable - allow for searching
+ * @property {boolean} taggable - allow field use for tagging
+ * @property {boolean} exportable - allow field use for exporting
+ * @property {object} fake - fake data generator options
+ *
+ * @author lally elias <lallyelias87@gmail.com>
+ * @since 0.1.0
+ * @version 0.1.0
+ * @instance
+ * @example
+ * PTN-8687
+ */
+export const pcr = {
+  type: String,
+  trim: true,
+  index: true,
+  searchable: true,
+  taggable: true,
+  exportable: true,
+  fake: {
+    generator: 'finance',
+    type: 'account',
+  },
+};
+
+/**
  * @name area
  * @description Assignable administrative area of a party.
  *
@@ -453,6 +487,7 @@ export const requester = createSubSchema({
  *
  * @type {object}
  * @property {string} referral - Valid referral number
+ * @property {string} pcr - Valid patient care number
  * @property {string} name - Full name of the victim
  * @property {string} mobile - Mobile phone number of the victim
  * @property {object} gender - Gender of the victim
@@ -467,6 +502,7 @@ export const requester = createSubSchema({
  * @example
  * {
  *   referral: "AMN-5657",
+ *   pcr: "PTN-8687",
  *   name: "Jane Doe",
  *   mobile: "+255715463739",
  *   gender: { name: { en: "Female"} },
@@ -477,6 +513,7 @@ export const requester = createSubSchema({
  */
 export const victim = createSubSchema({
   referral,
+  pcr,
   name,
   mobile,
   gender,

@@ -121,11 +121,37 @@ describe('VehicleDispatch Schema', () => {
 
   it('should have victim field', () => {
     const victim = VehicleDispatch.path('victim');
+    const referral = VehicleDispatch.path('victim.referral');
+    const pcr = VehicleDispatch.path('victim.pcr');
     const name = VehicleDispatch.path('victim.name');
     const mobile = VehicleDispatch.path('victim.mobile');
 
     expect(victim).to.exist;
     expect(victim).to.be.an.instanceof(SchemaTypes.Embedded);
+
+    expect(referral).to.exist;
+    expect(referral).to.be.instanceof(SchemaTypes.String);
+    expect(referral.options).to.exist;
+    expect(referral.options).to.be.an('object');
+    expect(referral.options.type).to.exist;
+    expect(referral.options.trim).to.be.true;
+    expect(referral.options.index).to.be.true;
+    expect(referral.options.searchable).to.be.true;
+    expect(referral.options.taggable).to.be.true;
+    expect(referral.options.exportable).to.be.true;
+    expect(referral.options.fake).to.exist;
+
+    expect(pcr).to.exist;
+    expect(pcr).to.be.instanceof(SchemaTypes.String);
+    expect(pcr.options).to.exist;
+    expect(pcr.options).to.be.an('object');
+    expect(pcr.options.type).to.exist;
+    expect(pcr.options.trim).to.be.true;
+    expect(pcr.options.index).to.be.true;
+    expect(pcr.options.searchable).to.be.true;
+    expect(pcr.options.taggable).to.be.true;
+    expect(pcr.options.exportable).to.be.true;
+    expect(pcr.options.fake).to.exist;
 
     expect(name).to.exist;
     expect(name).to.be.instanceof(SchemaTypes.String);

@@ -3,7 +3,7 @@ import { join } from '@lykmapipo/common';
 import { ObjectId } from '@lykmapipo/mongoose-common';
 import { Party } from '@codetanzania/emis-stakeholder';
 
-import { PARTY_OPTION_AUTOPOPULATE } from '../internals';
+import { AUTOPOPULATE_OPTION_PARTY } from '../internals';
 
 /**
  * @name owner
@@ -41,7 +41,7 @@ export const owner = {
   // required: true,
   index: true,
   exists: true,
-  autopopulate: PARTY_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PARTY,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'name'),
@@ -88,7 +88,7 @@ export const reporter = {
   // required: true,
   index: true,
   exists: true,
-  autopopulate: PARTY_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PARTY,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'name'),
@@ -135,7 +135,7 @@ export const dispatcher = {
   // required: true,
   index: true,
   exists: true,
-  autopopulate: PARTY_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PARTY,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'name'),
@@ -182,7 +182,7 @@ export const canceler = {
   // required: true,
   index: true,
   exists: true,
-  autopopulate: PARTY_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PARTY,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'name'),
@@ -229,7 +229,7 @@ export const resolver = {
   // required: true,
   index: true,
   exists: true,
-  autopopulate: PARTY_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PARTY,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'name'),
@@ -310,7 +310,7 @@ export const crew = {
   index: true,
   exists: true,
   // duplicate: deduplicate,
-  autopopulate: PARTY_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PARTY,
   taggable: true,
   exportable: {
     format: (v) => join(v, ', ', 'name'),

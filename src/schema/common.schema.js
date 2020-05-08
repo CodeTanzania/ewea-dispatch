@@ -7,7 +7,11 @@ import { Predefine } from '@lykmapipo/predefine';
 import { owner, correspondent } from './parties.schema';
 import { arrivedAt, dispatchedAt } from './dates.schema';
 import { description, remarks } from './base.schema';
-import { PREDEFINE_OPTION_AUTOPOPULATE } from '../internals';
+import {
+  AUTOPOPULATE_OPTION_PREDEFINE,
+  AUTOPOPULATE_OPTION_VEHICLE,
+  AUTOPOPULATE_OPTION_AREA,
+} from '../internals';
 
 /**
  * @name name
@@ -266,7 +270,7 @@ export const area = {
   index: true,
   exists: true,
   aggregatable: { unwind: true },
-  autopopulate: PREDEFINE_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_AREA,
   taggable: true,
   exportable: {
     header: 'Area',
@@ -304,7 +308,7 @@ export const facility = {
   index: true,
   exists: true,
   aggregatable: { unwind: true },
-  autopopulate: PREDEFINE_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PREDEFINE,
   taggable: true,
   exportable: {
     header: 'Facility',
@@ -343,7 +347,7 @@ export const gender = {
   index: true,
   exists: true,
   aggregatable: { unwind: true },
-  autopopulate: PREDEFINE_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PREDEFINE,
   taggable: true,
   exportable: {
     header: 'Gender',
@@ -391,7 +395,7 @@ export const type = {
   index: true,
   exists: true,
   aggregatable: { unwind: true },
-  autopopulate: PREDEFINE_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_PREDEFINE,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'strings.name.en'),
@@ -435,7 +439,7 @@ export const vehicle = {
   index: true,
   exists: true,
   aggregatable: { unwind: true },
-  autopopulate: PREDEFINE_OPTION_AUTOPOPULATE,
+  autopopulate: AUTOPOPULATE_OPTION_VEHICLE,
   taggable: true,
   exportable: {
     format: (v) => get(v, 'strings.name.en'),
@@ -508,7 +512,8 @@ export const requester = createSubSchema({
  *   gender: { name: { en: "Female"} },
  *   age: 23,
  *   weight: 53,
- *   address: "Tandale"
+ *   address: "Tandale",
+ *   area: { name: { en: "Dar es Salaam"} }
  * }
  */
 export const victim = createSubSchema({
@@ -521,6 +526,7 @@ export const victim = createSubSchema({
   weight,
   description,
   address,
+  area,
 });
 
 /**
@@ -533,21 +539,22 @@ export const victim = createSubSchema({
  * @property {string} address - Address of the destination
  * @property {Date} arrivedAt - Arrive date of the destination
  * @property {Date} dispatcheAt - Dispatch date of the destination
- * @property {object} correspondent - Answerable of the destination
+ * @property {object} correspondent - Answerable party of the destination
+ * @property {object} remarks - Feedback of the destination
  * @author lally elias <lallyelias87@gmail.com>
  * @since 0.1.0
  * @version 0.1.0
  * @instance
  * @example
  * {
- * facility: { name: { en: "Amana Hospital"} },
- * area: { name: { en: "Dar es Salaam"} },
- * location: { type: "Point", coordinates: [39.2155451, -6.7269984] },
- * address: "Tandale"
- * arrivedAt: "2018-10-17T07:54:32.831Z",
- * dispatchedAt: "2018-10-18T07:54:32.831Z",
- * correspondent: { name: "Jane Doe" },
- * remarks: "Well received"
+ *   facility: { name: { en: "Amana Hospital"} },
+ *   area: { name: { en: "Dar es Salaam"} },
+ *   location: { type: "Point", coordinates: [39.2155451, -6.7269984] },
+ *   address: "Tandale"
+ *   arrivedAt: "2018-10-17T07:54:32.831Z",
+ *   dispatchedAt: "2018-10-18T07:54:32.831Z",
+ *   correspondent: "Jane Doe",
+ *   remarks: "Well received"
  * }
  */
 export const destination = createSubSchema({
@@ -562,7 +569,7 @@ export const destination = createSubSchema({
 });
 
 /**
- * @name vehicle
+ * @name carrier
  * @description Dispatched vehicle details.
  *
  * @type {object}

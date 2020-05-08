@@ -6,7 +6,7 @@ import { Predefine } from '@lykmapipo/predefine';
 
 import { owner, correspondent } from './parties.schema';
 import { arrivedAt, dispatchedAt } from './dates.schema';
-import { remarks } from './base.schema';
+import { description, remarks } from './base.schema';
 import { PREDEFINE_OPTION_AUTOPOPULATE } from '../internals';
 
 /**
@@ -519,6 +519,7 @@ export const victim = createSubSchema({
   gender,
   age,
   weight,
+  description,
   address,
 });
 

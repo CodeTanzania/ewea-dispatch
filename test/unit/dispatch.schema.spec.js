@@ -125,6 +125,7 @@ describe('VehicleDispatch Schema', () => {
     const pcr = VehicleDispatch.path('victim.pcr');
     const name = VehicleDispatch.path('victim.name');
     const mobile = VehicleDispatch.path('victim.mobile');
+    const description = VehicleDispatch.path('victim.description');
 
     expect(victim).to.exist;
     expect(victim).to.be.an.instanceof(SchemaTypes.Embedded);
@@ -176,6 +177,17 @@ describe('VehicleDispatch Schema', () => {
     expect(mobile.options.taggable).to.be.true;
     expect(mobile.options.exportable).to.be.true;
     expect(mobile.options.fake).to.exist;
+
+    expect(description).to.exist;
+    expect(description).to.be.instanceof(SchemaTypes.String);
+    expect(description.options).to.exist;
+    expect(description.options).to.be.an('object');
+    expect(description.options.type).to.exist;
+    expect(description.options.trim).to.be.true;
+    expect(description.options.index).to.be.true;
+    expect(description.options.searchable).to.be.true;
+    expect(description.options.exportable).to.be.true;
+    expect(description.options.fake).to.exist;
   });
 
   it('should have description field', () => {

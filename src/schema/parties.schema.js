@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 import { join } from '@lykmapipo/common';
-import { ObjectId } from '@lykmapipo/mongoose-common';
+import { ObjectId, areSameObjectId } from '@lykmapipo/mongoose-common';
 import { Party } from '@codetanzania/emis-stakeholder';
 
 import { AUTOPOPULATE_OPTION_PARTY } from '../internals';
@@ -309,7 +309,7 @@ export const crew = {
   ref: Party.MODEL_NAME,
   index: true,
   exists: true,
-  // duplicate: deduplicate,
+  duplicate: areSameObjectId,
   autopopulate: AUTOPOPULATE_OPTION_PARTY,
   taggable: true,
   exportable: {

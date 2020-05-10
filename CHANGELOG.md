@@ -1,3 +1,24 @@
+#### 0.3.1 (2020-05-10)
+
+##### Chores
+
+* **deps:**
+  *  force latest version & audit fix ([9b209396](https://github.com/codetanzania/ewea-dispatch/commit/9b2093961f5d5c0b092291a151ee5692efa981a2))
+  *  force latest version & audit fix ([2c98b865](https://github.com/codetanzania/ewea-dispatch/commit/2c98b8656014d1825498c04a38924fdf8f060c09))
+
+##### New Features
+
+* **dispatch-model:**  esnure uniq crew member ([ce831c53](https://github.com/codetanzania/ewea-dispatch/commit/ce831c53b292a3258f6f0ea7dcd98b0dd0166116))
+
+##### Refactors
+
+* **dispatch-number:**  use year, month, sequence & country code ([9eac16a7](https://github.com/codetanzania/ewea-dispatch/commit/9eac16a7418c31af896e61f6265a4ed3c298027a))
+
+##### Tests
+
+* **seed:**  ensure proper criteria ([65eeb63b](https://github.com/codetanzania/ewea-dispatch/commit/65eeb63b53e75e1ea7316680a560f92361240db3))
+* **fixtures:**  improve dispatch seed ([027cfdb1](https://github.com/codetanzania/ewea-dispatch/commit/027cfdb195e4bc6731417d2342f3f62b448361d9))
+
 #### 0.3.0 (2020-05-08)
 
 ##### Chores

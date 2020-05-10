@@ -1,6 +1,5 @@
 import { get } from 'lodash';
 import moment from 'moment';
-import { compact } from '@lykmapipo/common';
 import { ObjectId } from '@lykmapipo/mongoose-common';
 import { Predefine } from '@lykmapipo/predefine';
 import { Event } from '@codetanzania/ewea-event';
@@ -181,12 +180,11 @@ export const number = {
   exportable: true,
   sequenceable: {
     prefix: function prefix() {
-      const eventTypeCode = get(this, 'type.strings.code', '');
-      const year = moment(new Date()).format('YYYY');
-      return compact([eventTypeCode, year]).join('-');
+      const year = moment(new Date()).format('YYYY-MM');
+      return year;
     },
     suffix: COUNTRY_CODE,
-    length: 6,
+    length: 4,
     pad: '0',
     separator: '-',
   },

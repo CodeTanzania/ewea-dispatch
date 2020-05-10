@@ -5,31 +5,31 @@ import VehicleDispatch from '../../src/dispatch.model';
 
 describe('VehicleDispatch Instance', () => {
   it('should have pre validate logics', () => {
-    const event = VehicleDispatch.fake();
-    expect(event.preValidate).to.exist;
-    expect(event.preValidate).to.be.a('function');
-    expect(event.preValidate.length).to.be.equal(1);
-    expect(event.preValidate.name).to.be.equal('preValidate');
+    const dispatch = VehicleDispatch.fake();
+    expect(dispatch.preValidate).to.exist;
+    expect(dispatch.preValidate).to.be.a('function');
+    expect(dispatch.preValidate.length).to.be.equal(1);
+    expect(dispatch.preValidate.name).to.be.equal('preValidate');
   });
 
   it('should set reportedAt on pre validate', (done) => {
-    const event = VehicleDispatch.fakeExcept('reportedAt');
+    const dispatch = VehicleDispatch.fakeExcept('reportedAt');
 
-    expect(event.reportedAt).to.not.exist;
-    event.preValidate((error) => {
-      expect(event.reportedAt).to.exist;
+    expect(dispatch.reportedAt).to.not.exist;
+    dispatch.preValidate((error) => {
+      expect(dispatch.reportedAt).to.exist;
       done(error);
     });
   });
 
   it('should set reportedAt on pre validate', (done) => {
     const vehicle = Predefine.fake();
-    const event = VehicleDispatch.fakeExcept('dispatchedAt');
-    event.set({ carrier: { vehicle } });
+    const dispatch = VehicleDispatch.fakeExcept('dispatchedAt');
+    dispatch.set({ carrier: { vehicle } });
 
-    expect(event.dispatchedAt).to.not.exist;
-    event.preValidate((error) => {
-      expect(event.dispatchedAt).to.exist;
+    expect(dispatch.dispatchedAt).to.not.exist;
+    dispatch.preValidate((error) => {
+      expect(dispatch.dispatchedAt).to.exist;
       done(error);
     });
   });
@@ -37,13 +37,13 @@ describe('VehicleDispatch Instance', () => {
 
 describe('VehicleDispatch Validations', () => {
   it('should generate number', (done) => {
-    const event = VehicleDispatch.fakeExcept('number');
-    // expect(event.number).to.not.exist;
-    event.validate((error) => {
+    const dispatch = VehicleDispatch.fakeExcept('number');
+    // expect(dispatch.number).to.not.exist;
+    dispatch.validate((error) => {
       expect(error).to.not.exist;
-      expect(event.number).to.exist;
-      expect(event.number).to.contain('TZ');
-      done(error, event);
+      expect(dispatch.number).to.exist;
+      expect(dispatch.number).to.contain('TZ');
+      done(error, dispatch);
     });
   });
 });
@@ -90,15 +90,15 @@ describe('VehicleDispatch Statics', () => {
   });
 
   it('should prepare seed criteria from object id', () => {
-    const event = VehicleDispatch.fake().toObject();
-    const seed = VehicleDispatch.prepareSeedCriteria(event);
+    const dispatch = VehicleDispatch.fake().toObject();
+    const seed = VehicleDispatch.prepareSeedCriteria(dispatch);
     expect(seed).to.exist;
     expect(seed._id).to.exist;
   });
 
   it('should prepare seed criteria from object id', () => {
-    const event = omit(VehicleDispatch.fake().toObject(), '_id');
-    const seed = VehicleDispatch.prepareSeedCriteria(event);
+    const dispatch = omit(VehicleDispatch.fake().toObject(), '_id');
+    const seed = VehicleDispatch.prepareSeedCriteria(dispatch);
     expect(seed).to.exist;
     expect(seed._id).to.not.exist;
   });
@@ -106,7 +106,7 @@ describe('VehicleDispatch Statics', () => {
 
 describe('VehicleDispatch Faker', () => {
   it('should fake number', () => {
-    const event = VehicleDispatch.fake();
-    expect(event.number).to.exist.and.be.a('string');
+    const dispatch = VehicleDispatch.fake();
+    expect(dispatch.number).to.exist.and.be.a('string');
   });
 });

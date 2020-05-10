@@ -1,7 +1,7 @@
 import { COLLECTION_NAME_VEHICLEDISPATCH, POPULATION_MAX_DEPTH, MODEL_NAME_VEHICLEDISPATCH } from '@codetanzania/ewea-internals';
-import { compact, join, mergeObjects, idOf, pkg } from '@lykmapipo/common';
+import { join, compact, mergeObjects, idOf, pkg } from '@lykmapipo/common';
 import { getString, apiVersion as apiVersion$1 } from '@lykmapipo/env';
-import { ObjectId, createSubSchema, model, createSchema, copyInstance, connect } from '@lykmapipo/mongoose-common';
+import { ObjectId, areSameObjectId, createSubSchema, model, createSchema, copyInstance, connect } from '@lykmapipo/mongoose-common';
 import { mount } from '@lykmapipo/express-common';
 import { Router, getFor, schemaFor, downloadFor, postFor, getByIdFor, patchFor, putFor, deleteFor, start as start$1 } from '@lykmapipo/express-rest-actions';
 import { createModels } from '@lykmapipo/file';
@@ -255,12 +255,11 @@ const number = {
   exportable: true,
   sequenceable: {
     prefix: function prefix() {
-      const eventTypeCode = get(this, 'type.strings.code', '');
-      const year = moment(new Date()).format('YYYY');
-      return compact([eventTypeCode, year]).join('-');
+      const year = moment(new Date()).format('YYYY-MM');
+      return year;
     },
     suffix: COUNTRY_CODE,
-    length: 6,
+    length: 4,
     pad: '0',
     separator: '-',
   },
@@ -688,7 +687,7 @@ const crew = {
   ref: Party.MODEL_NAME,
   index: true,
   exists: true,
-  // duplicate: deduplicate,
+  duplicate: areSameObjectId,
   autopopulate: AUTOPOPULATE_OPTION_PARTY,
   taggable: true,
   exportable: {

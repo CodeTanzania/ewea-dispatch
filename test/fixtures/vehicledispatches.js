@@ -49,7 +49,7 @@ const dispatches = [
     remarks: 'Handled.',
     populate: {
       group: {
-        match: { 'strings.name.en': 'Hydrological' },
+        match: { namespace: 'EventGroup', 'strings.name.en': 'Hydrological' },
         model: 'Predefine',
       },
       type: {
@@ -59,32 +59,26 @@ const dispatches = [
       'requester.facility': {
         match: { namespace: 'Feature', 'strings.name.en': 'Amana Hospital' },
         model: 'Predefine',
-        array: true,
       },
       'requester.area': {
         match: { namespace: 'AdministrativeArea', 'strings.name.en': 'Ilala' },
         model: 'Predefine',
-        array: true,
       },
       'victim.gender': {
         match: { namespace: 'PartyGender', 'strings.name.en': 'Female' },
         model: 'Predefine',
-        array: true,
       },
       'victiom.area': {
         match: { namespace: 'AdministrativeArea', 'strings.name.en': 'Ilala' },
         model: 'Predefine',
-        array: true,
       },
       'pickup.facility': {
         match: { namespace: 'Feature', 'strings.name.en': 'Amana Hospital' },
         model: 'Predefine',
-        array: true,
       },
       'pickup.area': {
         match: { namespace: 'AdministrativeArea', 'strings.name.en': 'Ilala' },
         model: 'Predefine',
-        array: true,
       },
       'dropoff.facility': {
         match: {
@@ -92,12 +86,10 @@ const dispatches = [
           'strings.name.en': 'Muhimbili Hospital',
         },
         model: 'Predefine',
-        array: true,
       },
       'dropoff.area': {
         match: { namespace: 'AdministrativeArea', 'strings.name.en': 'Ilala' },
         model: 'Predefine',
-        array: true,
       },
       'carrier.type': {
         match: { namespace: 'VehicleType', 'strings.name.en': 'Ambulance' },
@@ -106,11 +98,10 @@ const dispatches = [
       'carrier.owner': {
         match: {
           name: {
-            $in: ['Dar es Salaam Multi-Agency Emergency Response Team'],
+            $in: ['Multi-Agency Emergency Response Team'],
           },
         },
         model: 'Party',
-        array: true,
       },
       'carrier.vehicle': {
         match: { namespace: 'Vehicle', 'strings.name.en': 'T 123 ABC' },
@@ -122,7 +113,7 @@ const dispatches = [
         array: true,
       },
       status: {
-        match: { namespace: 'VehicleStatus', 'strings.name.en': 'Operational' },
+        match: { namespace: 'VehicleStatus', 'strings.name.en': 'Idle' },
         model: 'Predefine',
       },
     },

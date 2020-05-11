@@ -37,7 +37,11 @@ export const ensureReporter = (request, response, next) => {
  */
 export const ensureDispatcher = (request, response, next) => {
   if (request.body && request.party) {
-    request.body.dispatcher = request.body.dispatcher || request.party;
+    const isDispatched = request.body.dispatchedAt || request.body.dispatcher;
+    if (isDispatched) {
+      request.body.dispatchedAt = new Date();
+      request.body.dispatcher = request.body.dispatcher || request.party;
+    }
   }
   return next();
 };
@@ -59,7 +63,11 @@ export const ensureDispatcher = (request, response, next) => {
  */
 export const ensureCanceler = (request, response, next) => {
   if (request.body && request.party) {
-    request.body.canceler = request.body.canceler || request.party;
+    const isCanceled = request.body.canceledAt || request.body.canceler;
+    if (isCanceled) {
+      request.body.canceledAt = new Date();
+      request.body.canceler = request.body.canceler || request.party;
+    }
   }
   return next();
 };
@@ -81,7 +89,14 @@ export const ensureCanceler = (request, response, next) => {
  */
 export const ensureResolver = (request, response, next) => {
   if (request.body && request.party) {
-    request.body.resolver = request.body.resolver || request.party;
+    const isResolved =
+      request.body.resolvedAt ||
+      request.body.completedAt ||
+      request.body.resolver;
+    if (isResolved) {
+      request.body.resolvedAt = new Date();
+      request.body.resolver = request.body.resolver || request.party;
+    }
   }
   return next();
 };

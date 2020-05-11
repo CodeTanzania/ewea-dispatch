@@ -13,7 +13,12 @@ import {
 
 import VehicleDispatch from './dispatch.model';
 
-import { ensureReporter } from './http.middlewares';
+import {
+  ensureReporter,
+  ensureDispatcher,
+  ensureCanceler,
+  ensureResolver,
+} from './http.middlewares';
 
 /* constants */
 const API_VERSION = getString('API_VERSION', '1.0.0');
@@ -117,7 +122,9 @@ router.get(
  */
 router.patch(
   PATH_SINGLE,
-  // ensureResolver,
+  ensureDispatcher,
+  ensureCanceler,
+  ensureResolver,
   patchFor({
     patch: (options, done) => VehicleDispatch.patch(options, done),
   })
@@ -130,7 +137,9 @@ router.patch(
  */
 router.put(
   PATH_SINGLE,
-  // ensureResolver,
+  ensureDispatcher,
+  ensureCanceler,
+  ensureResolver,
   putFor({
     put: (options, done) => VehicleDispatch.put(options, done),
   })
@@ -143,7 +152,7 @@ router.put(
  */
 router.delete(
   PATH_SINGLE,
-  // ensureCanceler,
+  ensureCanceler,
   deleteFor({
     del: (options, done) => VehicleDispatch.del(options, done),
     soft: true,

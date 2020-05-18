@@ -334,6 +334,27 @@ describe('VehicleDispatch Schema', () => {
     expect(status.options.default).to.be.undefined;
   });
 
+  it('should have priority field', () => {
+    const priority = VehicleDispatch.path('priority');
+
+    expect(priority).to.exist;
+    expect(priority).to.be.instanceof(SchemaTypes.ObjectId);
+    expect(priority.options).to.exist;
+    expect(priority.options).to.be.an('object');
+    expect(priority.options.type).to.exist;
+    expect(priority.options.ref).to.exist;
+    expect(priority.options.ref).to.be.equal(Predefine.MODEL_NAME);
+    // expect(priority.options.required).to.be.true;
+    expect(priority.options.exists).to.be.true;
+    expect(priority.options.aggregatable).to.exist.and.be.an('object');
+
+    expect(priority.options.autopopulate).to.exist;
+    expect(priority.options.taggable).to.exist;
+    expect(priority.options.exportable).to.exist;
+    // expect(priority.options.aggregatable).to.exist;
+    expect(priority.options.default).to.be.undefined;
+  });
+
   it('should have reportedAt field', () => {
     const reportedAt = VehicleDispatch.path('reportedAt');
 

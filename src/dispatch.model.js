@@ -22,6 +22,7 @@ import {
   number,
   description,
   status,
+  priority,
   remarks,
 } from './schema/base.schema';
 import {
@@ -50,7 +51,7 @@ const SCHEMA = mergeObjects(
   { description },
   { pickup: destination, dropoff: destination },
   { carrier, crew },
-  { status },
+  { status, priority },
   { reportedAt, reporter },
   { dispatchedAt, dispatcher },
   { canceledAt, canceler },
@@ -126,7 +127,8 @@ VehicleDispatchSchema.pre('validate', function onPreValidate(done) {
  */
 VehicleDispatchSchema.methods.preValidate = function preValidate(done) {
   // ensure started(or reported) date
-  this.reportedAt = this.reportedAt || new Date();
+  // TODO: drop reported date & use createdAt
+  this.reportedAt = this.reportedAt || this.createdAt || new Date();
 
   // TODO: ensure requestor from victim or requester facility
   // TODO: esnure requestor, victim, pickup address
@@ -142,10 +144,13 @@ VehicleDispatchSchema.methods.preValidate = function preValidate(done) {
   }
 
   // ensure dispatchedAt if carrer vehicle assigned
+  // TODO: ensure type, owner & ownership
   const hasVehicle = get(this, 'carrier.vehicle');
   if (hasVehicle && !this.dispatchedAt) {
     this.dispatchedAt = new Date();
   }
+
+  // TODO: ensure default values
 
   return done(null, this);
 };

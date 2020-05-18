@@ -338,7 +338,7 @@ export const facility = {
  * @instance
  * @example
  * {
- *   "name": {"en": "Female"}
+ *   "name": { "en" : "Female" }
  * }
  */
 export const gender = {
@@ -442,6 +442,45 @@ export const vehicle = {
   autopopulate: AUTOPOPULATE_OPTION_VEHICLE,
   taggable: true,
   exportable: {
+    format: (v) => get(v, 'strings.name.en'),
+    default: 'NA',
+  },
+  default: undefined,
+};
+
+/**
+ * @name ownership
+ * @description Assignable or given ownership to a party.
+ *
+ * @type {object}
+ * @property {object} type - schema(data) type
+ * @property {string} ref - referenced collection
+ * @property {boolean} index - ensure database index
+ * @property {boolean} exists - ensure ref exists before save
+ * @property {object} autopopulate - population options
+ * @property {boolean} taggable - allow field use for tagging
+ * @property {boolean} default - default value set when none provided
+ *
+ * @since 0.5.0
+ * @version 0.1.0
+ * @instance
+ * @example
+ * {
+ *   _id: '5dde6ca33631a92c2d616298',
+ *   strings: { name: { en: 'Government' } }
+ * }
+ */
+export const ownership = {
+  type: ObjectId,
+  ref: Predefine.MODEL_NAME,
+  index: true,
+  // required: true,
+  exists: true,
+  aggregatable: { unwind: true },
+  autopopulate: AUTOPOPULATE_OPTION_PREDEFINE,
+  taggable: true,
+  exportable: {
+    header: 'Ownership',
     format: (v) => get(v, 'strings.name.en'),
     default: 'NA',
   },
@@ -591,5 +630,6 @@ export const destination = createSubSchema({
 export const carrier = createSubSchema({
   type,
   owner,
+  ownership,
   vehicle,
 });

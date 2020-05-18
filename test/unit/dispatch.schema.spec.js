@@ -275,6 +275,7 @@ describe('VehicleDispatch Schema', () => {
     const carrier = VehicleDispatch.path('carrier');
     const type = VehicleDispatch.path('carrier.type');
     const owner = VehicleDispatch.path('carrier.owner');
+    const ownership = VehicleDispatch.path('carrier.ownership');
     const vehicle = VehicleDispatch.path('carrier.vehicle');
 
     expect(carrier).to.exist;
@@ -285,6 +286,9 @@ describe('VehicleDispatch Schema', () => {
 
     expect(owner).to.exist;
     expect(owner).to.be.instanceof(SchemaTypes.ObjectId);
+
+    expect(ownership).to.exist;
+    expect(ownership).to.be.instanceof(SchemaTypes.ObjectId);
 
     expect(vehicle).to.exist;
     expect(vehicle).to.be.instanceof(SchemaTypes.ObjectId);

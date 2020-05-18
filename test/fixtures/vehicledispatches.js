@@ -44,8 +44,9 @@ const dispatches = [
       remarks: 'Handled.',
     },
     reportedAt: '2020-05-04T02:48:48.323Z',
+    createdAt: '2020-05-04T02:48:48.323Z',
     dispatchedAt: '2020-05-04T02:50:48.323Z',
-    resolvedAt: '2020-05-04T02:59:58.323Z',
+    resolvedAt: '2020-05-04T02:59:48.323Z',
     remarks: 'Handled.',
     populate: {
       group: {
@@ -126,6 +127,10 @@ const dispatches = [
       },
       status: {
         match: { namespace: 'VehicleStatus', 'strings.name.en': 'Idle' },
+        model: 'Predefine',
+      },
+      priority: {
+        match: { namespace: 'Priority', 'strings.name.en': 'Critical' },
         model: 'Predefine',
       },
     },

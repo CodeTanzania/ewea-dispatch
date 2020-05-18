@@ -350,6 +350,50 @@ const status = {
 };
 
 /**
+ * @name priority
+ * @description Currently assigned priority of a vehicle dispatch.
+ *
+ * @memberof VehicleDispatch
+ *
+ * @type {object}
+ * @property {object} type - schema(data) type
+ * @property {boolean} required - mark required
+ * @property {boolean} index - ensure database index
+ * @property {boolean} exists - ensure ref exists before save
+ * @property {object} autopopulate - auto populate(eager loading) options
+ * @property {boolean} taggable - allow field use for tagging
+ * @property {boolean} exportable - allow field use for exporting
+ * @property {boolean} aggregatable - allow field use for aggregation
+ * @property {boolean} default - default value set when none provided
+ * @property {object} fake - fake data generator options
+ *
+ * @author lally elias <lallyelias87@gmail.com>
+ * @since 0.1.0
+ * @version 0.1.0
+ * @instance
+ * @example
+ * {
+ *   _id: '5dde6ca33631a92c2d616284',
+ *   strings: { name: { en: 'Critical' } },
+ * }
+ */
+const priority = {
+  type: ObjectId,
+  ref: Predefine.MODEL_NAME,
+  // required: true,
+  index: true,
+  exists: true,
+  aggregatable: { unwind: true },
+  autopopulate: AUTOPOPULATE_OPTION_PREDEFINE,
+  taggable: true,
+  exportable: {
+    format: (v) => get(v, 'strings.name.en'),
+    default: 'NA',
+  },
+  default: undefined,
+};
+
+/**
  * @name remarks
  * @description A brief human readable comments and feedbacks
  * about a vehicle dispatched.
@@ -1165,7 +1209,7 @@ const facility = {
  * @instance
  * @example
  * {
- *   "name": {"en": "Female"}
+ *   "name": { "en" : "Female" }
  * }
  */
 const gender = {
@@ -1269,6 +1313,45 @@ const vehicle = {
   autopopulate: AUTOPOPULATE_OPTION_VEHICLE,
   taggable: true,
   exportable: {
+    format: (v) => get(v, 'strings.name.en'),
+    default: 'NA',
+  },
+  default: undefined,
+};
+
+/**
+ * @name ownership
+ * @description Assignable or given ownership to a party.
+ *
+ * @type {object}
+ * @property {object} type - schema(data) type
+ * @property {string} ref - referenced collection
+ * @property {boolean} index - ensure database index
+ * @property {boolean} exists - ensure ref exists before save
+ * @property {object} autopopulate - population options
+ * @property {boolean} taggable - allow field use for tagging
+ * @property {boolean} default - default value set when none provided
+ *
+ * @since 0.5.0
+ * @version 0.1.0
+ * @instance
+ * @example
+ * {
+ *   _id: '5dde6ca33631a92c2d616298',
+ *   strings: { name: { en: 'Government' } }
+ * }
+ */
+const ownership = {
+  type: ObjectId,
+  ref: Predefine.MODEL_NAME,
+  index: true,
+  // required: true,
+  exists: true,
+  aggregatable: { unwind: true },
+  autopopulate: AUTOPOPULATE_OPTION_PREDEFINE,
+  taggable: true,
+  exportable: {
+    header: 'Ownership',
     format: (v) => get(v, 'strings.name.en'),
     default: 'NA',
   },
@@ -1418,6 +1501,7 @@ const destination = createSubSchema({
 const carrier = createSubSchema({
   type: type$1,
   owner,
+  ownership,
   vehicle,
 });
 
@@ -1427,7 +1511,7 @@ const SCHEMA = mergeObjects(
   { description },
   { pickup: destination, dropoff: destination },
   { carrier, crew },
-  { status },
+  { status, priority },
   { reportedAt, reporter },
   { dispatchedAt, dispatcher },
   { canceledAt, canceler },
@@ -1503,7 +1587,8 @@ VehicleDispatchSchema.pre('validate', function onPreValidate(done) {
  */
 VehicleDispatchSchema.methods.preValidate = function preValidate(done) {
   // ensure started(or reported) date
-  this.reportedAt = this.reportedAt || new Date();
+  // TODO: drop reported date & use createdAt
+  this.reportedAt = this.reportedAt || this.createdAt || new Date();
 
   // TODO: ensure requestor from victim or requester facility
   // TODO: esnure requestor, victim, pickup address
@@ -1519,10 +1604,13 @@ VehicleDispatchSchema.methods.preValidate = function preValidate(done) {
   }
 
   // ensure dispatchedAt if carrer vehicle assigned
+  // TODO: ensure type, owner & ownership
   const hasVehicle = get(this, 'carrier.vehicle');
   if (hasVehicle && !this.dispatchedAt) {
     this.dispatchedAt = new Date();
   }
+
+  // TODO: ensure default values
 
   return done(null, this);
 };

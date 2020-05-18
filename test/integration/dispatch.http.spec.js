@@ -14,18 +14,17 @@ import { Event } from '@codetanzania/ewea-event';
 import { VehicleDispatch, vehicleDispatchRouter } from '../../src';
 
 describe('VehicleDispatch Rest API', () => {
-  // TODO: use namespaced faker(load ewea-internal)
-  const area = Predefine.fake();
-  const role = Predefine.fake();
+  const area = Predefine.fakeAdministrativeArea();
+  const role = Predefine.fakePartyRole();
 
   const reporter = Party.fake();
   reporter.set({ role });
 
-  const vehicle = Predefine.fake();
+  const vehicle = Predefine.fakeVehicle();
   vehicle.set({ owner: reporter, relations: { area } });
 
-  const group = Predefine.fake();
-  const type = Predefine.fake();
+  const group = Predefine.fakeEventGroup();
+  const type = Predefine.fakeEventType();
   const event = Event.fake();
 
   const dispatch = VehicleDispatch.fakeExcept('number');

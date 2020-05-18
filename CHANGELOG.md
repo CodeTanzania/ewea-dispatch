@@ -1,3 +1,19 @@
+#### 0.5.0 (2020-05-18)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([0fb65b26](https://github.com/codetanzania/ewea-dispatch/commit/0fb65b26725471cf0cc8f4abc43ab26c9b564bb1))
+
+##### New Features
+
+* **dispatch-model:**
+  *  add priority schema field ([ea9d9ece](https://github.com/codetanzania/ewea-dispatch/commit/ea9d9eceaa71b75fd80f0567ad7a01135b09ad44))
+  *  add carrier ownership schema field ([573a0a32](https://github.com/codetanzania/ewea-dispatch/commit/573a0a326b1e9e82a373f4c00d4224a81b94b6dd))
+
+##### Tests
+
+*  use namespaced prededine seeds ([a54e60ef](https://github.com/codetanzania/ewea-dispatch/commit/a54e60ef761026dd544f00e82d8c327af31723be))
+
 #### 0.4.0 (2020-05-11)
 
 ##### Chores

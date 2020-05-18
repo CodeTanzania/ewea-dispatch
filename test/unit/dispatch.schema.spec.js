@@ -275,6 +275,7 @@ describe('VehicleDispatch Schema', () => {
     const carrier = VehicleDispatch.path('carrier');
     const type = VehicleDispatch.path('carrier.type');
     const owner = VehicleDispatch.path('carrier.owner');
+    const ownership = VehicleDispatch.path('carrier.ownership');
     const vehicle = VehicleDispatch.path('carrier.vehicle');
 
     expect(carrier).to.exist;
@@ -285,6 +286,9 @@ describe('VehicleDispatch Schema', () => {
 
     expect(owner).to.exist;
     expect(owner).to.be.instanceof(SchemaTypes.ObjectId);
+
+    expect(ownership).to.exist;
+    expect(ownership).to.be.instanceof(SchemaTypes.ObjectId);
 
     expect(vehicle).to.exist;
     expect(vehicle).to.be.instanceof(SchemaTypes.ObjectId);
@@ -328,6 +332,27 @@ describe('VehicleDispatch Schema', () => {
     expect(status.options.exportable).to.exist;
     // expect(status.options.aggregatable).to.exist;
     expect(status.options.default).to.be.undefined;
+  });
+
+  it('should have priority field', () => {
+    const priority = VehicleDispatch.path('priority');
+
+    expect(priority).to.exist;
+    expect(priority).to.be.instanceof(SchemaTypes.ObjectId);
+    expect(priority.options).to.exist;
+    expect(priority.options).to.be.an('object');
+    expect(priority.options.type).to.exist;
+    expect(priority.options.ref).to.exist;
+    expect(priority.options.ref).to.be.equal(Predefine.MODEL_NAME);
+    // expect(priority.options.required).to.be.true;
+    expect(priority.options.exists).to.be.true;
+    expect(priority.options.aggregatable).to.exist.and.be.an('object');
+
+    expect(priority.options.autopopulate).to.exist;
+    expect(priority.options.taggable).to.exist;
+    expect(priority.options.exportable).to.exist;
+    // expect(priority.options.aggregatable).to.exist;
+    expect(priority.options.default).to.be.undefined;
   });
 
   it('should have reportedAt field', () => {

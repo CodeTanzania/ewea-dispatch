@@ -9,6 +9,7 @@ import { get, pick } from 'lodash';
 import '@lykmapipo/mongoose-sequenceable';
 import actions from 'mongoose-rest-actions';
 import exportable from '@lykmapipo/mongoose-exportable';
+import { dispatchStatusFor } from '@codetanzania/ewea-common';
 import moment from 'moment';
 import { Predefine } from '@lykmapipo/predefine';
 import { Event } from '@codetanzania/ewea-event';
@@ -1611,6 +1612,18 @@ VehicleDispatchSchema.methods.preValidate = function preValidate(done) {
   }
 
   // TODO: ensure default values
+
+  // ensure dispatch status
+  const statusesOptns = mergeObjects(
+    pick(this, 'createdAt', 'canceledAt', 'dispatchedAt', 'resolvedAt'),
+    pick(this, 'pickup.dispatchedAt', 'pickup.arrivedAt'),
+    pick(this, 'dropoff.dispatchedAt', 'dropoff.arrivedAt')
+  );
+  const statuses = dispatchStatusFor(statusesOptns);
+  if (statuses) {
+    this.status = statuses.dispatch || this.status;
+    // TODO: set vehicle statup if avalable
+  }
 
   return done(null, this);
 };

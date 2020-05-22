@@ -1,6 +1,6 @@
 {
   "name": "@codetanzania/ewea-dispatch",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "A representation of an entity which define and track vehicle dispatches(i.e ambulance etc) during an emergency event.",
   "main": "lib/index.js",
   "module": "es/index.js",

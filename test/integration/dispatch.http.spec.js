@@ -9,6 +9,7 @@ import {
 } from '@lykmapipo/mongoose-test-helpers';
 import { Predefine } from '@lykmapipo/predefine';
 import { createModels } from '@lykmapipo/file';
+import { seedCommons } from '@codetanzania/ewea-common';
 import { Party } from '@codetanzania/emis-stakeholder';
 import { Event } from '@codetanzania/ewea-event';
 import { VehicleDispatch, vehicleDispatchRouter } from '../../src';
@@ -50,6 +51,7 @@ describe('VehicleDispatch Rest API', () => {
 
   beforeEach(() => createModels());
 
+  before((done) => seedCommons(done));
   before((done) => create(role, group, type, area, done));
   before((done) => create(reporter, done));
   before((done) => create(vehicle, done));

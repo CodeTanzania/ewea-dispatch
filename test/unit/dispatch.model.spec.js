@@ -33,13 +33,149 @@ describe('VehicleDispatch Instance', () => {
       done(error);
     });
   });
+
+  it('should set waiting status on request', (done) => {
+    const dispatch = VehicleDispatch.fakeExcept(
+      1,
+      null,
+      'canceledAt',
+      'dispatchedAt',
+      'pickup.arrivedAt',
+      'pickup.dispatchedAt',
+      'dropoff.arrivedAt',
+      'dropoff.dispatchedAt',
+      'resolvedAt'
+    );
+
+    expect(dispatch.status).to.not.exist;
+    dispatch.preValidate((error) => {
+      expect(dispatch.status).to.exist;
+      done(error);
+    });
+  });
+
+  it('should set cancel status on cancel', (done) => {
+    const dispatch = VehicleDispatch.fakeExcept(
+      1,
+      null,
+      'dispatchedAt',
+      'pickup.arrivedAt',
+      'pickup.dispatchedAt',
+      'dropoff.arrivedAt',
+      'dropoff.dispatchedAt',
+      'resolvedAt'
+    );
+
+    expect(dispatch.status).to.not.exist;
+    dispatch.preValidate((error) => {
+      expect(dispatch.status).to.exist;
+      done(error);
+    });
+  });
+
+  it('should set enroute status on dispatch', (done) => {
+    const dispatch = VehicleDispatch.fakeExcept(
+      1,
+      null,
+      'canceledAt',
+      'pickup.arrivedAt',
+      'pickup.dispatchedAt',
+      'dropoff.arrivedAt',
+      'dropoff.dispatchedAt',
+      'resolvedAt'
+    );
+
+    expect(dispatch.status).to.not.exist;
+    dispatch.preValidate((error) => {
+      expect(dispatch.status).to.exist;
+      done(error);
+    });
+  });
+
+  it('should set at pickup status when arrived at pickup', (done) => {
+    const dispatch = VehicleDispatch.fakeExcept(
+      1,
+      null,
+      'canceledAt',
+      'pickup.dispatchedAt',
+      'dropoff.arrivedAt',
+      'dropoff.dispatchedAt',
+      'resolvedAt'
+    );
+
+    expect(dispatch.status).to.not.exist;
+    dispatch.preValidate((error) => {
+      expect(dispatch.status).to.exist;
+      done(error);
+    });
+  });
+
+  it('should set from pickup status when dispatched from pickup', (done) => {
+    const dispatch = VehicleDispatch.fakeExcept(
+      1,
+      null,
+      'canceledAt',
+      'dropoff.arrivedAt',
+      'dropoff.dispatchedAt',
+      'resolvedAt'
+    );
+
+    expect(dispatch.status).to.not.exist;
+    dispatch.preValidate((error) => {
+      expect(dispatch.status).to.exist;
+      done(error);
+    });
+  });
+
+  it('should set at dropoff status when at drop off', (done) => {
+    const dispatch = VehicleDispatch.fakeExcept(
+      1,
+      null,
+      'canceledAt',
+      'dropoff.dispatchedAt',
+      'resolvedAt'
+    );
+
+    expect(dispatch.status).to.not.exist;
+    dispatch.preValidate((error) => {
+      expect(dispatch.status).to.exist;
+      done(error);
+    });
+  });
+
+  it('should set from dropoff status when dispatched from drop off', (done) => {
+    const dispatch = VehicleDispatch.fakeExcept(
+      1,
+      null,
+      'canceledAt',
+      'resolvedAt'
+    );
+
+    expect(dispatch.status).to.not.exist;
+    dispatch.preValidate((error) => {
+      expect(dispatch.status).to.exist;
+      done(error);
+    });
+  });
+
+  it('should set completed status once finished', (done) => {
+    const dispatch = VehicleDispatch.fakeExcept(1, null, 'canceledAt');
+
+    expect(dispatch.status).to.not.exist;
+    dispatch.preValidate((error) => {
+      expect(dispatch.status).to.exist;
+      done(error);
+    });
+  });
 });
 
-describe('VehicleDispatch Validations', () => {
+describe.skip('VehicleDispatch Validations', () => {
+  // TODO: seedCommons
   it('should generate number', (done) => {
     const dispatch = VehicleDispatch.fakeExcept('number');
     // expect(dispatch.number).to.not.exist;
     dispatch.validate((error) => {
+      console.log(error);
       expect(error).to.not.exist;
       expect(dispatch.number).to.exist;
       expect(dispatch.number).to.contain('TZ');

@@ -1,6 +1,7 @@
 import path from 'path';
 import { first } from 'lodash';
 import { clear, expect } from '@lykmapipo/mongoose-test-helpers';
+import { seedCommons } from '@codetanzania/ewea-common';
 import { VehicleDispatch } from '../../src';
 
 describe('VehicleDispatch Seed', () => {
@@ -12,6 +13,8 @@ describe('VehicleDispatch Seed', () => {
   before(() => {
     process.env.SEED_PATH = path.join(__dirname, '..', 'fixtures');
   });
+
+  before((done) => seedCommons(done));
 
   it('should be able to seed', (done) => {
     VehicleDispatch.seed((error, seeded) => {

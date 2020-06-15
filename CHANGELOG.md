@@ -1,3 +1,12 @@
+#### 0.6.1 (2020-06-15)
+
+##### Chores
+
+* **deps:**
+  *  force latest version & audit fix ([73e632b4](https://github.com/codetanzania/ewea-dispatch/commit/73e632b405a84cf8231d2b951a01b318a7e8baf8))
+  *  force latest version & audit fix ([ed8f637a](https://github.com/codetanzania/ewea-dispatch/commit/ed8f637afd9edbb675aeb28016c4bb33662451ed))
+  *  force latest version & audit fix ([5933da3e](https://github.com/codetanzania/ewea-dispatch/commit/5933da3ebcdac5b685c6071baaee3df3be3b5cd6))
+
 #### 0.6.0 (2020-05-22)
 
 ##### Chores

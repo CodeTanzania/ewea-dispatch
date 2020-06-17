@@ -175,7 +175,6 @@ describe.skip('VehicleDispatch Validations', () => {
     const dispatch = VehicleDispatch.fakeExcept('number');
     // expect(dispatch.number).to.not.exist;
     dispatch.validate((error) => {
-      console.log(error);
       expect(error).to.not.exist;
       expect(dispatch.number).to.exist;
       expect(dispatch.number).to.contain('TZ');
